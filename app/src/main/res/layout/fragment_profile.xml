@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="Profile.ProfileFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/profile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/profile_view"/>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/homePageProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile"
+        android:textSize="@dimen/thirty_sp"
+        android:textColor="@color/light_blue3"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/ten_dp"
+        app:layout_constraintStart_toStartOf="@id/profile_toolbar"
+        app:layout_constraintTop_toTopOf="@id/profile_toolbar"
+        app:layout_constraintEnd_toEndOf="@id/profile_toolbar"/>
+
+    <View
+        android:id="@+id/profile_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_toolbar"
+        app:layout_constraintBottom_toTopOf="@id/profile_tabLayout"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/world"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"
+        android:layout_marginTop="@dimen/twenty_five_dp"
+        android:layout_marginStart="@dimen/fifty_dp"
+        app:layout_constraintStart_toStartOf="@id/profile_view"
+        app:layout_constraintTop_toTopOf="@id/profile_view"/>
+
+
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name_surname"
+        android:textColor="@color/light_blue3"
+        android:layout_marginTop="@dimen/ten_dp"
+        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        app:layout_constraintStart_toStartOf="@id/profile_image"
+        app:layout_constraintEnd_toEndOf="@id/profile_image"/>
+
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/posts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/posts"
+        android:layout_marginStart="@dimen/forty_dp"
+        app:layout_constraintStart_toEndOf="@id/profile_image"
+        app:layout_constraintTop_toBottomOf="@id/post_count"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/followers"
+        app:layout_constraintStart_toStartOf="@id/followers_count"
+        app:layout_constraintEnd_toEndOf="@id/followers_count"
+        app:layout_constraintTop_toBottomOf="@id/followers_count"
+        tools:layout_editor_absoluteX="277dp"
+        tools:layout_editor_absoluteY="99dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/post_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_15"
+        android:layout_marginStart="@dimen/fifty_dp"
+        android:layout_marginTop="@dimen/forty_dp"
+        app:layout_constraintStart_toEndOf="@id/profile_image"
+        app:layout_constraintTop_toTopOf="@id/profile_view"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/followers_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_100"
+        android:layout_marginStart="@dimen/seventy_dp"
+        android:layout_marginTop="@dimen/forty_dp"
+        app:layout_constraintStart_toEndOf="@id/post_count"
+        app:layout_constraintTop_toTopOf="@id/profile_view"/>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/profile_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toTopOf="@id/profile_viewPager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_view" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/profile_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_tabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

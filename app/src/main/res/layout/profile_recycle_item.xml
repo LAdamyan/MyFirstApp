@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image_page"
+        android:layout_width="@dimen/eighty_dp"
+        android:layout_height="@dimen/eighty_dp"
+        android:layout_marginTop="@dimen/thirty_dp"
+        android:src="@drawable/world"
+        android:layout_marginStart="@dimen/thirty_dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/profile_name_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name"
+        android:textSize="@dimen/twenty_sp"
+        android:textColor="@color/light_blue3"
+        android:layout_marginStart="@dimen/twenty_dp"
+        app:layout_constraintTop_toTopOf="@id/profile_image_page"
+        app:layout_constraintBottom_toBottomOf="@id/profile_image_page"
+        app:layout_constraintStart_toEndOf="@id/profile_image_page"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/profile_surName_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/surname"
+        android:textSize="@dimen/twenty_sp"
+        android:textColor="@color/light_blue3"
+        android:layout_marginStart="@dimen/ten_dp"
+        app:layout_constraintTop_toTopOf="@id/profile_name_page"
+        app:layout_constraintBottom_toBottomOf="@id/profile_name_page"
+        app:layout_constraintStart_toEndOf="@id/profile_name_page"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/page_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_250dp"
+        android:layout_marginStart="@dimen/thirty_dp"
+        android:layout_marginTop="@dimen/fifty_dp"
+        android:layout_marginEnd="@dimen/twenty_dp"
+        app:layout_constraintBottom_toTopOf="@id/heart_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_name_page" />
+
+    <View
+        android:id="@+id/view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_marginStart="@dimen/thirty_dp"
+        android:layout_marginEnd="@dimen/twenty_dp"
+        android:background="#EDF2FF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/page_image"
+        app:layout_constraintEnd_toEndOf="@id/page_image"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/heart_icon"
+        android:layout_width="@dimen/forty_dp"
+        android:layout_height="@dimen/thirty_dp"
+        android:layout_marginStart="@dimen/twenty_dp"
+        android:src="@drawable/heart"
+        android:layout_marginTop="@dimen/five_dp"
+        app:layout_constraintBottom_toBottomOf="@id/view_bottom"
+        app:layout_constraintEnd_toStartOf="@id/comment_icon"
+        app:layout_constraintStart_toStartOf="@id/view_bottom"
+        app:layout_constraintTop_toTopOf="@id/view_bottom"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/comment_icon"
+        android:layout_width="@dimen/thirty_dp"
+        android:layout_height="@dimen/thirty_dp"
+        android:layout_marginStart="@dimen/fifteen_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:src="@drawable/comment_processing_outline"
+        app:layout_constraintBottom_toBottomOf="@id/heart_icon"
+        app:layout_constraintStart_toEndOf="@id/heart_icon"
+        app:layout_constraintTop_toTopOf="@id/heart_icon"
+
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
