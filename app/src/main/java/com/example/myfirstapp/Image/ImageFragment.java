@@ -48,7 +48,7 @@ public class ImageFragment extends Fragment implements ItemClickListener2 {
         fullImageFragment.setArguments(bundle);
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity4_fragment_container, fullImageFragment);
+        fragmentTransaction.add(R.id.activity4_fragment_container, fullImageFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
