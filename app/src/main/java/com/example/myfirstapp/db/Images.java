@@ -9,8 +9,6 @@ import retrofit2.http.Query;
 
 public interface Images {
 
-    @GET ("/v1/search?query=nature")
-    public Call<List<SearchPhotos>> getNatureImage(@Body()String body);
 
     @GET ("/v1/search")
     public Call<SearchPhotos>searchImage(@Query("query")String param);

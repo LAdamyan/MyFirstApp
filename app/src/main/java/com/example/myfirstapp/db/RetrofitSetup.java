@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitSetup {
 
-    private final String BASE_URL ="https://api.pixels.com/";
+    private final String BASE_URL ="https://api.pexels.com/";
 
     public Images initRetrofit(){
 

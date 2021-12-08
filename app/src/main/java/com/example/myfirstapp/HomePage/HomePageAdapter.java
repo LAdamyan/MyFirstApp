@@ -39,15 +39,16 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
 
         HomePageProfile homePageProfile = homePageProfiles.get(position);
         holder.initData(homePageProfile);
-        holder.itemView.setOnClickListener(view -> {
+        holder.circleImageView.setOnClickListener(view -> {
             itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName());
         });
-        holder.imageview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                itemClickListener.openFullImage(homePageProfile.getImageURL());
-            }
+        holder.name.setOnClickListener(view -> {
+            itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName());
         });
+        holder.surName.setOnClickListener(view -> {
+            itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName());
+        });
+        holder.imageview.setOnClickListener(view -> itemClickListener.openFullImage(homePageProfile.getImageURL()));
 
 
     }
@@ -65,7 +66,6 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
     }
 
 
-
 }
 class HomePageHolder extends RecyclerView.ViewHolder {
 
@@ -76,6 +76,7 @@ class HomePageHolder extends RecyclerView.ViewHolder {
     AppCompatTextView surName = itemView.findViewById(R.id.profile_surName_page);
     AppCompatImageView imageview = itemView.findViewById(R.id.page_image);
     AppCompatImageView likeImage = itemView.findViewById(R.id.heart_icon);
+    AppCompatImageView commentIcon = itemView.findViewById(R.id.comment_icon);
 
 
     public HomePageHolder(@NonNull View itemView) {
@@ -85,7 +86,7 @@ class HomePageHolder extends RecyclerView.ViewHolder {
 
     public void initData(HomePageProfile homePageProfile) {
 
-        circleImageView.setImageResource(homePageProfile.getProfileImage());
+       circleImageView.setImageResource(homePageProfile.getProfileImage());
         name.setText(homePageProfile.getName());
         surName.setText(homePageProfile.getSurName());
         Glide.with(itemView.getContext())
