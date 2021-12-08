@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -21,6 +20,8 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
     private final ArrayList<HomePageProfile> homePageProfiles = new ArrayList<>();
     private ItemClickListener itemClickListener;
 
+
+
     public void setItemClickListener(ItemClickListener itemClickListener){
         this.itemClickListener = itemClickListener;
     }
@@ -31,6 +32,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.profile_recycle_item,parent,false);
         return new HomePageHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull HomePageHolder holder, int position) {
@@ -46,6 +48,8 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
                 itemClickListener.openFullImage(homePageProfile.getImageURL());
             }
         });
+
+
     }
 
     @Override
@@ -53,14 +57,16 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
         return homePageProfiles.size();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+
     public void setProfiles(List<HomePageProfile> homePageProfile){
         this.homePageProfiles.clear();
         this.homePageProfiles.addAll(homePageProfile);
         notifyDataSetChanged();
     }
-}
 
+
+
+}
 class HomePageHolder extends RecyclerView.ViewHolder {
 
     private  int LIKE_STATUS= 0;
@@ -100,8 +106,8 @@ class HomePageHolder extends RecyclerView.ViewHolder {
             }
         });
     }
-}
 
+}
 interface ItemClickListener {
     void onClick(String name, String surname);
 

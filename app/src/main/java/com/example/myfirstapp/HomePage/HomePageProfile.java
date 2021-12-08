@@ -19,6 +19,9 @@ public class HomePageProfile {
     this.likeImage = likeImage;
   }
 
+  public HomePageProfile(String mediumUrl) {
+  }
+
   public int getLikeImage() {
     return likeImage;
   }

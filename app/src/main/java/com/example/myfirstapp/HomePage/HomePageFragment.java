@@ -11,6 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.FullImage.FullImageFragment;
 import com.example.myfirstapp.Profile.ProfileFragment;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.db.Image;
+import com.example.myfirstapp.db.Images;
+import com.example.myfirstapp.db.Photo;
+import com.example.myfirstapp.db.RetrofitSetup;
+import com.example.myfirstapp.db.SearchPhotos;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class HomePageFragment extends Fragment implements ItemClickListener {
@@ -24,6 +36,25 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         recyclerView = view.findViewById(R.id.home_page_recycle);
 
         initRecycle();
+
+
+        RetrofitSetup retrofitSetup = new RetrofitSetup();
+        Images images = retrofitSetup.initRetrofit();
+        Call<SearchPhotos> nature = images.searchImage("nature");
+         nature.enqueue(new Callback<SearchPhotos>() {
+             @Override
+             public void onResponse(Call<SearchPhotos> call, Response<SearchPhotos> response) {
+
+             }
+
+             @Override
+             public void onFailure(Call<SearchPhotos> call, Throwable t) {
+
+             }
+         });
+
+
+
         return view;
 
     }
@@ -33,6 +64,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(profilePageAdapter);
         profilePageAdapter.setProfiles(HomePageProfile.getHomePageProfile());
+
         profilePageAdapter.setItemClickListener(this);
     }
 
