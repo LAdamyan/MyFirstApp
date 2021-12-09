@@ -49,6 +49,12 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
             itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName());
         });
         holder.imageview.setOnClickListener(view -> itemClickListener.openFullImage(homePageProfile.getImageURL()));
+        holder.commentIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+           itemClickListener.OpenBottomDialog(homePageProfile.getCommentIcon());
+            }
+        });
 
 
     }
@@ -113,5 +119,7 @@ interface ItemClickListener {
     void onClick(String name, String surname);
 
     void openFullImage(String imageUrl);
+
+    void OpenBottomDialog(int imageIcon);
 }
 

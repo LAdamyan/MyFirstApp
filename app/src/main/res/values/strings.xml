@@ -10,4 +10,7 @@
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="profile">Profile</string>
+    <string name="hi_everyone">Hi everyone!!!!!</string>
+    <string name="write_comment_here">Write Comment here</string>
+    <string name="submit_comment">Submit comment</string>
 </resources>

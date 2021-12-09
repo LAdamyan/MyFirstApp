@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.myfirstapp.FullImage.FullImageFragment;
 import com.example.myfirstapp.Profile.ProfileFragment;
 import com.example.myfirstapp.R;
@@ -48,13 +49,11 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
                 ArrayList<HomePageProfile> profilePhoto = new ArrayList<>();
 
-
-
                  for (Photo photo: photos) {
 
                      String[] s = photo.getPhotographer().split(" ");
                      String s1 = s[0];
-                     String s2 = s[0];
+                     String s2 = s[1];
 
                      profilePhoto.add(new HomePageProfile(
                              R.drawable.world,
@@ -66,7 +65,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
              @Override
              public void onFailure(Call<SearchPhotos> call, Throwable t) {
-
+                 System.out.println(t.getLocalizedMessage());
              }
          });
 
@@ -107,4 +106,12 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+    @Override
+    public void OpenBottomDialog(int imageIcon) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
+        bottomSheetDialog.show(getParentFragmentManager(),null);
+    }
+
+
 }

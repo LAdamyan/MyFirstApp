@@ -10,6 +10,11 @@ public class HomePageProfile {
   private String surName;
   private String imageURL;
   private int likeImage;
+  private int commentIcon;
+
+  public HomePageProfile(int commentIcon) {
+    this.commentIcon = commentIcon;
+  }
 
   public HomePageProfile(int profileImage, String name, String surName, String imageURL, int likeImage) {
     this.profileImage = profileImage;
@@ -17,6 +22,8 @@ public class HomePageProfile {
     this.surName = surName;
     this.imageURL = imageURL;
     this.likeImage = likeImage;
+
+
   }
 
   public HomePageProfile(String mediumUrl) {
@@ -25,6 +32,10 @@ public class HomePageProfile {
 
   public int getLikeImage() {
     return likeImage;
+  }
+
+  public int getCommentIcon(){
+    return commentIcon;
   }
 
   public void setLikeImage(int likeImage) {
