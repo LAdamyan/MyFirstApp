@@ -7,10 +7,17 @@
     <string name="_15">15</string>
     <string name="_100">100</string>
     <string name="videofragment">VideoFragment</string>
-    <string name="name">Name</string>
-    <string name="surname">Surname</string>
+
     <string name="profile">Profile</string>
     <string name="hi_everyone">Hi everyone!!!!!</string>
     <string name="write_comment_here">Write Comment here</string>
+
     <string name="submit_comment">Submit comment</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="warning_text">For the Application to work correctly,please disable
+                                                  AirPlane mode</string>
+    <string name="oops">Oops</string>
+    <string name="ok">Ok</string>
+    <string name="comment">Comment</string>
 </resources>

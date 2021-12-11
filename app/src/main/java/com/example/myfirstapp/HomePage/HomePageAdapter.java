@@ -1,18 +1,22 @@
 package com.example.myfirstapp.HomePage;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.myfirstapp.R;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
@@ -39,24 +43,24 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
 
         HomePageProfile homePageProfile = homePageProfiles.get(position);
         holder.initData(homePageProfile);
-        holder.circleImageView.setOnClickListener(view -> {
-            itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName());
-        });
-        holder.name.setOnClickListener(view -> {
-            itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName());
-        });
-        holder.surName.setOnClickListener(view -> {
-            itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName());
-        });
+
+        holder.circleImageView.setOnClickListener(view -> itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName()));
+
+        holder.name.setOnClickListener(view -> itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName()));
+
+        holder.surName.setOnClickListener(view -> { itemClickListener.onClick(homePageProfile.getName(), homePageProfile.getSurName()); });
+
         holder.imageview.setOnClickListener(view -> itemClickListener.openFullImage(homePageProfile.getImageURL()));
-        holder.commentIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-           itemClickListener.OpenBottomDialog(homePageProfile.getCommentIcon());
-            }
+
+        holder.commentIcon.setOnClickListener(view -> itemClickListener.OpenBottomDialog(homePageProfile.getCommentIcon()));
+
+        holder.shareIcon.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            String imageUrl = homePageProfile.getImageURL();
+            intent.putExtra(Intent.EXTRA_TEXT, imageUrl);
+            //startActivity(intent);
         });
-
-
     }
 
     @Override
@@ -64,13 +68,11 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
         return homePageProfiles.size();
     }
 
-
     public void setProfiles(List<HomePageProfile> homePageProfile){
         this.homePageProfiles.clear();
         this.homePageProfiles.addAll(homePageProfile);
         notifyDataSetChanged();
     }
-
 
 }
 class HomePageHolder extends RecyclerView.ViewHolder {
@@ -83,12 +85,11 @@ class HomePageHolder extends RecyclerView.ViewHolder {
     AppCompatImageView imageview = itemView.findViewById(R.id.page_image);
     AppCompatImageView likeImage = itemView.findViewById(R.id.heart_icon);
     AppCompatImageView commentIcon = itemView.findViewById(R.id.comment_icon);
-
+    AppCompatImageView shareIcon = itemView.findViewById(R.id.share_icon);
 
     public HomePageHolder(@NonNull View itemView) {
         super(itemView);
     }
-
 
     public void initData(HomePageProfile homePageProfile) {
 
@@ -108,18 +109,22 @@ class HomePageHolder extends RecyclerView.ViewHolder {
             }
 
             else if(LIKE_STATUS == 1){ // like  is on, turn it off
-                likeImage.setColorFilter(Color.parseColor("#8797EF"));
+                likeImage.setColorFilter(Color.parseColor("#1E33EC"));
                 LIKE_STATUS = 0;
             }
         });
     }
 
 }
+
+
 interface ItemClickListener {
     void onClick(String name, String surname);
 
     void openFullImage(String imageUrl);
 
     void OpenBottomDialog(int imageIcon);
+
+
 }
 

@@ -11,9 +11,13 @@ public class HomePageProfile {
   private String imageURL;
   private int likeImage;
   private int commentIcon;
+  private int shareIcon;
 
-  public HomePageProfile(int commentIcon) {
+
+
+  public HomePageProfile(int commentIcon,int shareIcon) {
     this.commentIcon = commentIcon;
+    this.shareIcon = shareIcon;
   }
 
   public HomePageProfile(int profileImage, String name, String surName, String imageURL, int likeImage) {
@@ -24,6 +28,10 @@ public class HomePageProfile {
     this.likeImage = likeImage;
 
 
+  }
+
+  public int getShareIcon() {
+    return shareIcon;
   }
 
   public HomePageProfile(String mediumUrl) {

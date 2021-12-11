@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="@string/home"
         android:textSize="@dimen/thirty_sp"
-        android:textColor="@color/light_blue3"
+        android:textColor="#2890CB"
         android:layout_marginTop="@dimen/fifteen_dp"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="@id/home_page_toolbar"
@@ -30,19 +30,15 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_page_recycle"
+        android:id="@+id/home_page_recycleView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/thirty_dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/home_page_toolbar"
-        />
-
-
-
-
-
-
+         />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
