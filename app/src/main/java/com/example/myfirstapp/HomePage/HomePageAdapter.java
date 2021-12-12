@@ -53,14 +53,13 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
         holder.imageview.setOnClickListener(view -> itemClickListener.openFullImage(homePageProfile.getImageURL()));
 
         holder.commentIcon.setOnClickListener(view -> itemClickListener.OpenBottomDialog(homePageProfile.getCommentIcon()));
-
-        holder.shareIcon.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            String imageUrl = homePageProfile.getImageURL();
-            intent.putExtra(Intent.EXTRA_TEXT, imageUrl);
-            //startActivity(intent);
+        holder.shareIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemClickListener.shareClick(homePageProfile.getImageURL());
+            }
         });
+
     }
 
     @Override
@@ -124,6 +123,8 @@ interface ItemClickListener {
     void openFullImage(String imageUrl);
 
     void OpenBottomDialog(int imageIcon);
+
+    void shareClick(String url);
 
 
 }

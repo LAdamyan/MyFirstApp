@@ -1,4 +1,5 @@
 package com.example.myfirstapp.HomePage;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.FullImage.FullImageFragment;
 import com.example.myfirstapp.Profile.ProfileFragment;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.db.Images;
-import com.example.myfirstapp.db.Photo;
-import com.example.myfirstapp.db.RetrofitSetup;
-import com.example.myfirstapp.db.SearchPhotos;
+import com.example.myfirstapp.dto.Images;
+import com.example.myfirstapp.dto.Photo;
+import com.example.myfirstapp.dto.SearchPhotos;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -42,9 +42,8 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         initRecycle(view);
 
 
-        RetrofitSetup retrofitSetup = new RetrofitSetup();
-        Images images = retrofitSetup.initRetrofit();
-        Call<SearchPhotos> nature = images.searchImage("nature");
+        Images images  = Images.create();
+        Call<SearchPhotos> nature = images.searchImage("santa");
 
         nature.enqueue(new Callback<SearchPhotos>() {
             @Override
@@ -132,7 +131,13 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
     }
 
-
+    @Override
+    public void shareClick(String url) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, url);
+        startActivity(intent);
+    }
 
 
 }

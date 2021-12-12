@@ -11,11 +11,13 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/drawable/image_multiple_outline.xml" value="0.25277777777777777" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/drawable/message_video.xml" value="0.25277777777777777" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/drawable/space_color.xml" value="0.25277777777777777" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/drawable/video_outline.xml" value="0.2942708333333333" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/activity_main.xml" value="0.278125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/alert_dialog.xml" value="0.278125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/bottomsheetdialog.xml" value="0.278125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/comments_recycle_items.xml" value="0.278125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/fragment_full_image.xml" value="0.278125" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/fragment_full_video.xml" value="0.278125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/fragment_image.xml" value="0.278125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/fragment_profile.xml" value="0.278125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/fragment_video.xml" value="0.278125" />
@@ -24,6 +26,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/image_recycle_items.xml" value="0.278125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/main_activity.xml" value="0.278125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/profile_recycle_item.xml" value="0.25" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/MyFirstApp/app/src/main/res/layout/video_recycle_items.xml" value="0.278125" />
       </map>
     </option>
   </component>

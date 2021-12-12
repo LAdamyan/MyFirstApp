@@ -20,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
 
+   private static final String MY_PREF = "My preferences";
 
     CommentAdapter commentAdapter = new CommentAdapter();
     RecyclerView recycleView;
@@ -63,7 +64,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     }
     private void saveComment() {
         if (getActivity() != null) {
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("My preferences", Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MY_PREF, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             if(editText!=null){
                 editor.putString("comments", editText.getText().toString());
@@ -74,10 +75,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         }
     }
     private void loadComment(){
-        SharedPreferences sh = getActivity().getSharedPreferences("My preferences",Context.MODE_PRIVATE);
-        String s1 = sh.getString("comments","");
+        if (getActivity()!=null) {
+            SharedPreferences sh = getActivity().getSharedPreferences(MY_PREF, Context.MODE_PRIVATE);
+            String s1 = sh.getString("comments", "");
 
-
+        }
 
 
 

@@ -49,6 +49,8 @@ public class ImageAdapter extends RecyclerView.Adapter<MyViewHolder2>{
     public int getItemCount() {
         return myUrls.size();
     }
+
+
     @SuppressLint("NotifyDataSetChanged")
     public void setMyUrls(List<Gallery>imageList){
         this.myUrls.clear();

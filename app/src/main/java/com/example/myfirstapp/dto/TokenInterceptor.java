@@ -1,4 +1,4 @@
-package com.example.myfirstapp.db;
+package com.example.myfirstapp.dto;
 
 import androidx.annotation.NonNull;
 

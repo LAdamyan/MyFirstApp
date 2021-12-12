@@ -1,6 +1,5 @@
-package com.example.myfirstapp.db;
+package com.example.myfirstapp.dto;
 
-import com.example.myfirstapp.db.Photo;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
