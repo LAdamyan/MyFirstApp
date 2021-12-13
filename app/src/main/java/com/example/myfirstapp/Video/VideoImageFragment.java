@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -14,8 +15,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.FullImage.FullImageFragment;
+import com.example.myfirstapp.FullVideo.FullVideoFragment;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.dto.SearchVideos;
+import com.example.myfirstapp.dto.Video;
 import com.example.myfirstapp.dto.Videos;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class VideoFragment extends Fragment implements onVideoClickListener {
+public class VideoImageFragment extends Fragment implements onVideoClickListener {
 
     private RecyclerView recyclerView;
     VideoAdapter videoAdapter = new VideoAdapter();
@@ -51,20 +54,18 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
         videos.searchVideo("nature" ).enqueue(new Callback<SearchVideos>() {
             @Override
             public void onResponse(Call<SearchVideos> call, Response<SearchVideos> response) {
+
                 SearchVideos body = response.body();
 
                 if (body != null) {
-                    List<Videos> videos1 = body.getVideos();
+                    List<Videos> videosList = body.getVideos();
 
                     ArrayList<VideoImage> videoImages = new ArrayList<>();
 
-                 /*   for (Videos video : videos1) {
-                        videoImages.add(new VideoImage(video.
 
-
-                    }*/
 
                 }
+
             }
             @Override
             public void onFailure(Call<SearchVideos> call, Throwable t) {
@@ -87,16 +88,20 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
     }
 
 
+
     @Override
     public void openFullVideo(String videoUrl) {
         Bundle bundle = new Bundle();
         bundle.putString("videoUrl", videoUrl);
-        FullImageFragment fullVideoFragment = new FullImageFragment();
+        FullVideoFragment fullVideoFragment = new FullVideoFragment();
         fullVideoFragment.setArguments(bundle);
-        FragmentManager fragmentManager = getParentFragmentManager();
+        AppCompatActivity activity= new AppCompatActivity();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.activity4_fragment_container, fullVideoFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+
 }

@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 
 import com.example.myfirstapp.Image.ImageFragment;
-import com.example.myfirstapp.Video.VideoFragment;
+import com.example.myfirstapp.Video.VideoImageFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
     public ViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
@@ -24,7 +24,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
             case 0 :
                 return new ImageFragment();
             case 1:
-                return new VideoFragment();
+                return new VideoImageFragment();
         }
         return new ImageFragment();
     }

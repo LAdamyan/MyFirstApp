@@ -16,6 +16,12 @@ import com.example.myfirstapp.Comment;
 import com.example.myfirstapp.CommentAdapter;
 import com.example.myfirstapp.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
@@ -63,11 +69,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         commentAdapter.setComments(Comment.getCommentItems());
     }
     private void saveComment() {
+        List<String > list = new ArrayList<>();
+        String jsonData = new Gson().toJson(list);
         if (getActivity() != null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MY_PREF, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             if(editText!=null){
-                editor.putString("comments", editText.getText().toString());
+                editor.putString("comments", jsonData);
                 editor.apply();
             }
 
@@ -75,9 +83,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         }
     }
     private void loadComment(){
+
         if (getActivity()!=null) {
             SharedPreferences sh = getActivity().getSharedPreferences(MY_PREF, Context.MODE_PRIVATE);
-            String s1 = sh.getString("comments", "");
+            String data = sh.getString("comments", null);
+            Type type = new TypeToken<List<String>>() {
+            }.getType();
+            List<String> objects = new Gson().fromJson("comments", type);
 
         }
 

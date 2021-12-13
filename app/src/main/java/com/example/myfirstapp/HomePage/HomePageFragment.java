@@ -70,7 +70,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
                         profilePhoto.add(new HomePageProfile(
                                 R.drawable.world,
                                 s1, s2,
-                                photo.getSrc().getLargeUrl(), 0));
+                                photo.getSrc().getMediumUrl(), 0));
                     }
                     profilePageAdapter.setProfiles(profilePhoto);
                 }
