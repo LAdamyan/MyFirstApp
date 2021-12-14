@@ -2,6 +2,8 @@ package com.example.myfirstapp.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Video {
     @SerializedName("id")
     int id;
@@ -16,7 +18,7 @@ public class Video {
     String url;
 
     @SerializedName("image")
-    int image;
+    String image;
 
     @SerializedName("duration")
     int duration;
@@ -37,11 +39,25 @@ public class Video {
         return url;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
     public int getDuration() {
         return duration;
+    }
+
+    @SerializedName("video_files")
+    List<VideoFiles> videoFiles;
+
+    @SerializedName("video_pictures")
+    List<VideoPictures> videoPictures;
+
+    public List<VideoFiles> getVideoFiles() {
+        return videoFiles;
+    }
+
+    public List<VideoPictures> getVideoPictures() {
+        return videoPictures;
     }
 }

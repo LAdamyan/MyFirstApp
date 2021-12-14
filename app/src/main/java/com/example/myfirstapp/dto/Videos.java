@@ -7,7 +7,7 @@ import retrofit2.http.Query;
 public interface Videos {
 
 
-    @GET ("/video/search")
+    @GET ("/videos/search")
     Call<SearchVideos>searchVideo(@Query("query")String param);
 
     static Videos create(){

@@ -9,7 +9,7 @@ public class VideoFiles {
     @SerializedName("quality")
     String quality;
 
-    @SerializedName("filetype")
+    @SerializedName("file_type")
     String filetype;
 
     @SerializedName("width")

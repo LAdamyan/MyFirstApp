@@ -7,9 +7,9 @@ import java.util.List;
 public class SearchVideos {
 
     @SerializedName("videos")
-    List<Videos> videos;
+    List<Video> videos;
 
-    public List<Videos> getVideos() {
+    public List<Video> getVideos() {
         return videos;
     }
 

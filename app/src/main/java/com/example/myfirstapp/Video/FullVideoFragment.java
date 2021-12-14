@@ -1,4 +1,4 @@
-package com.example.myfirstapp.FullVideo;
+package com.example.myfirstapp.Video;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,11 +33,14 @@ public class FullVideoFragment extends Fragment {
             Uri uri = Uri.parse(videoUrl);
             videoView.setVideoURI(uri);
             MediaController mediaController = new MediaController(videoView.getContext());
-            mediaController.setAnchorView(videoView);
             mediaController.setMediaPlayer(videoView);
-            mediaController.show();
             videoView.setMediaController(mediaController);
             videoView.start();
+            mediaController.show();
+
         }
     }
+
+
+
 }

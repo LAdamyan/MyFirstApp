@@ -1,4 +1,4 @@
-package com.example.myfirstapp.FullImage;
+package com.example.myfirstapp.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

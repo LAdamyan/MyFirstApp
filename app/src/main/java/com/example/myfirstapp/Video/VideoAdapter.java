@@ -1,21 +1,16 @@
 package com.example.myfirstapp.Video;
 
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.myfirstapp.FullVideo.FullVideoFragment;
 import com.example.myfirstapp.R;
 
 import java.util.ArrayList;
@@ -55,7 +50,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
         return videoImages.size();
     }
 
-    public void setMyVideos(List<VideoImage> videoImageList) {
+    public void setMyVideoImages(List<VideoImage> videoImageList) {
         this.videoImages.clear();
         this.videoImages.addAll(videoImageList);
         notifyDataSetChanged();
@@ -67,15 +62,13 @@ class VideoViewHolder extends RecyclerView.ViewHolder {
 
     AppCompatImageView videoImage;
     AppCompatImageView videoIcon;
-    VideoView videoView;
-
 
     public VideoViewHolder(@NonNull View itemView) {
         super(itemView);
 
         videoImage = itemView.findViewById(R.id.video_image);
         videoIcon = itemView.findViewById(R.id.video_icon);
-        videoView = itemView.findViewById(R.id.video_view);
+
     }
 
     public void initData(VideoImage videoImage1) {
@@ -87,10 +80,10 @@ class VideoViewHolder extends RecyclerView.ViewHolder {
                 .centerCrop()
                 .into(videoImage);
         videoIcon.setImageResource(videoImage1.getVideoIcon());
-      //  videoView.setVideoURI(Uri.parse(videoImage1.getVideoUrl()));
+
     }
 }
 
 interface onVideoClickListener {
-    void openFullVideo(String videoUrl);
+    void openFullVideo(String videoImageUrl);
 }

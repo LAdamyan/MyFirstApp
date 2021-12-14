@@ -14,9 +14,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myfirstapp.FullImage.FullImageFragment;
-import com.example.myfirstapp.FullVideo.FullVideoFragment;
+import com.example.myfirstapp.Image.Gallery;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.dto.Photo;
+import com.example.myfirstapp.dto.SearchPhotos;
 import com.example.myfirstapp.dto.SearchVideos;
 import com.example.myfirstapp.dto.Video;
 import com.example.myfirstapp.dto.Videos;
@@ -33,6 +34,7 @@ public class VideoImageFragment extends Fragment implements onVideoClickListener
 
     private RecyclerView recyclerView;
     VideoAdapter videoAdapter = new VideoAdapter();
+
 
 
     @Override
@@ -56,15 +58,16 @@ public class VideoImageFragment extends Fragment implements onVideoClickListener
             public void onResponse(Call<SearchVideos> call, Response<SearchVideos> response) {
 
                 SearchVideos body = response.body();
+                List<Video> videoList = body.getVideos();
 
-                if (body != null) {
-                    List<Videos> videosList = body.getVideos();
-
-                    ArrayList<VideoImage> videoImages = new ArrayList<>();
-
-
+               ArrayList<VideoImage>videoImages = new ArrayList<>();
+                for (Video video : videoList) {
+                    videoImages.add(new VideoImage(video.getImage(),
+                                                  R.drawable.video_outline,
+                                                    video.getUrl()));
 
                 }
+                videoAdapter.setMyVideoImages(videoImages);
 
             }
             @Override
@@ -72,8 +75,6 @@ public class VideoImageFragment extends Fragment implements onVideoClickListener
 
             }
         });
-
-
 
     }
 
@@ -83,7 +84,6 @@ public class VideoImageFragment extends Fragment implements onVideoClickListener
         recyclerView = view.findViewById(R.id.video_recycle);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(videoAdapter);
-        videoAdapter.setMyVideos(VideoImage.getVideos());
         videoAdapter.setVideoClickListener(this);
     }
 

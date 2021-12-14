@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.myfirstapp.FullImage.FullImageFragment;
+import com.example.myfirstapp.Image.FullImageFragment;
 import com.example.myfirstapp.Profile.ProfileFragment;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.dto.Images;

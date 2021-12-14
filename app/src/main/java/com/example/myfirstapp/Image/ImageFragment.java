@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.myfirstapp.FullImage.FullImageFragment;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.dto.Images;
 import com.example.myfirstapp.dto.Photo;
