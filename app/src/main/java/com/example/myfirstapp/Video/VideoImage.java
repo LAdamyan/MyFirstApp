@@ -17,6 +17,10 @@ public class VideoImage {
         this.videoUrl = videoUrl;
     }
 
+    public VideoImage(String videoUrl){
+        this.videoUrl = videoUrl;
+    }
+
     public String getVideoUrl() {
         return videoUrl;
     }

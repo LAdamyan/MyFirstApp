@@ -50,9 +50,6 @@ public class Video {
     @SerializedName("video_files")
     List<VideoFiles> videoFiles;
 
-    @SerializedName("video_pictures")
-    List<VideoPictures> videoPictures;
-
     public List<VideoFiles> getVideoFiles() {
         return videoFiles;
     }
@@ -60,4 +57,14 @@ public class Video {
     public List<VideoPictures> getVideoPictures() {
         return videoPictures;
     }
+
+    @SerializedName("video_pictures")
+    List<VideoPictures> videoPictures;
+
+
+
+
+
+
+
 }

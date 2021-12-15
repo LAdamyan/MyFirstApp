@@ -20,6 +20,7 @@ import com.example.myfirstapp.dto.Photo;
 import com.example.myfirstapp.dto.SearchPhotos;
 import com.example.myfirstapp.dto.SearchVideos;
 import com.example.myfirstapp.dto.Video;
+import com.example.myfirstapp.dto.VideoFiles;
 import com.example.myfirstapp.dto.Videos;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class VideoImageFragment extends Fragment implements onVideoClickListener {
+public class VideoFragment extends Fragment implements onVideoClickListener {
 
     private RecyclerView recyclerView;
     VideoAdapter videoAdapter = new VideoAdapter();
@@ -53,22 +54,21 @@ public class VideoImageFragment extends Fragment implements onVideoClickListener
         Videos videos = Videos.create();
 
 
-        videos.searchVideo("nature" ).enqueue(new Callback<SearchVideos>() {
+        videos.searchVideo("chocolate" ).enqueue(new Callback<SearchVideos>() {
             @Override
             public void onResponse(Call<SearchVideos> call, Response<SearchVideos> response) {
 
                 SearchVideos body = response.body();
                 List<Video> videoList = body.getVideos();
 
-               ArrayList<VideoImage>videoImages = new ArrayList<>();
+                ArrayList<VideoImage>videoImages = new ArrayList<>();
+
                 for (Video video : videoList) {
                     videoImages.add(new VideoImage(video.getImage(),
-                                                  R.drawable.video_outline,
-                                                    video.getUrl()));
+                            R.drawable.video_outline,video.getVideoFiles().get(0).getLink()));
 
                 }
                 videoAdapter.setMyVideoImages(videoImages);
-
             }
             @Override
             public void onFailure(Call<SearchVideos> call, Throwable t) {
@@ -95,8 +95,7 @@ public class VideoImageFragment extends Fragment implements onVideoClickListener
         bundle.putString("videoUrl", videoUrl);
         FullVideoFragment fullVideoFragment = new FullVideoFragment();
         fullVideoFragment.setArguments(bundle);
-        AppCompatActivity activity= new AppCompatActivity();
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.activity4_fragment_container, fullVideoFragment);
         fragmentTransaction.addToBackStack(null);
