@@ -21,8 +21,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
     private ArrayList<VideoImage> videoImages = new ArrayList<>();
     private onVideoClickListener onVideoClickListener;
 
+
     public void setVideoClickListener(onVideoClickListener onVideoClickListener) {
         this.onVideoClickListener = onVideoClickListener;
+
     }
 
     @NonNull
@@ -36,7 +38,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
         VideoImage videoImage = videoImages.get(position);
         holder.initData(videoImage);
-        holder.videoIcon.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onVideoClickListener.openFullVideo(videoImage.getVideoUrl());

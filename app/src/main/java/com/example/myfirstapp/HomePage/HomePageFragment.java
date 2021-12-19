@@ -17,6 +17,8 @@ import com.example.myfirstapp.R;
 import com.example.myfirstapp.dto.Images;
 import com.example.myfirstapp.dto.Photo;
 import com.example.myfirstapp.dto.SearchPhotos;
+import com.example.myfirstapp.room.UserDao;
+
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -71,6 +73,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
                                 R.drawable.world,
                                 s1, s2,
                                 photo.getSrc().getMediumUrl(), 0));
+
                     }
                     profilePageAdapter.setProfiles(profilePhoto);
                 }

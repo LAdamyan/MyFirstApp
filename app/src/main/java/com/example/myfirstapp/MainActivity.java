@@ -2,6 +2,9 @@ package com.example.myfirstapp;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -9,6 +12,13 @@ import android.os.Bundle;
 
 import com.example.myfirstapp.HomePage.HomePageFragment;
 import com.example.myfirstapp.broadcast.AirPlaneModeReceiver;
+
+import com.example.myfirstapp.room.AppDatabase;
+import com.example.myfirstapp.room.UserDao;
+import com.example.myfirstapp.room.UsersHomePage;
+
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(airPlaneModeReceiver, intentFilter);
 
     }
+
+    AppDatabase db = AppDatabase.getInstance(this);
+
+    UserDao userDao = db.getUsersDao();
+
+    List<UsersHomePage>  usersHomePageList = userDao.getUserHomePage();
+
+
 
 
     @Override

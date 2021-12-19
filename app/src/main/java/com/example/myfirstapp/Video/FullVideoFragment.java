@@ -32,12 +32,16 @@ public class FullVideoFragment extends Fragment {
             String videoUrl = bundle.getString("videoUrl");
             Uri uri = Uri.parse(videoUrl);
             videoView.setVideoURI(uri);
+            videoView.setVideoPath(videoUrl);
             MediaController mediaController = new MediaController(videoView.getContext());
             mediaController.setAnchorView(videoView);
             mediaController.setMediaPlayer(videoView);
             videoView.setMediaController(mediaController);
+            videoView.requestFocus();
             videoView.start();
             mediaController.show();
+
+
 
         }
     }
