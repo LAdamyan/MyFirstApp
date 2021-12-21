@@ -7,9 +7,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {UsersHomePage.class}, version = 1
+@Database(entities =
+        {UsersHomePage.class},
+        version = 1
 )
-@TypeConverters(StringConverter.class)
+
 
 public abstract class AppDatabase extends RoomDatabase {
 

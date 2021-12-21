@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -13,7 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.room.AppDatabase;
+import com.example.myfirstapp.room.UsersHomePage;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,6 +120,7 @@ class HomePageHolder extends RecyclerView.ViewHolder {
         });
     }
 
+
 }
 
 
@@ -125,6 +132,15 @@ interface ItemClickListener {
     void OpenBottomDialog(int imageIcon);
 
     void shareClick(String url);
+
+     List<String> getData(String value);
+
+     String saveData(List<String> list);
+
+
+
+
+
 
 
 }

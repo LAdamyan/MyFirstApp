@@ -11,14 +11,21 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Database;
+
 import com.example.myfirstapp.Image.FullImageFragment;
 import com.example.myfirstapp.Profile.ProfileFragment;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.dto.Images;
 import com.example.myfirstapp.dto.Photo;
 import com.example.myfirstapp.dto.SearchPhotos;
+import com.example.myfirstapp.room.AppDatabase;
 import com.example.myfirstapp.room.UserDao;
+import com.example.myfirstapp.room.UsersHomePage;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -42,6 +49,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecycle(view);
+
 
 
         Images images  = Images.create();
@@ -142,5 +150,18 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         startActivity(intent);
     }
 
+    @Override
+    public List<String> getData(String value) {
+            Type listType = new TypeToken<List<String>>() {}.getType();
+            return new Gson().fromJson(value, listType);
+        }
 
-}
+    @Override
+    public String saveData(List<String> list) {
+            Gson gson = new Gson();
+            return gson.toJson(list);
+        }
+    }
+
+
+

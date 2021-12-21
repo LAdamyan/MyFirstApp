@@ -39,16 +39,13 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         registerReceiver(airPlaneModeReceiver, intentFilter);
 
+
+        AppDatabase db = AppDatabase.getInstance(this);
+        UserDao userDao = db.getUsersDao();
+        List<UsersHomePage> usersHomePageList = userDao.getUserHomePage();
+
+
     }
-
-    AppDatabase db = AppDatabase.getInstance(this);
-
-    UserDao userDao = db.getUsersDao();
-
-    List<UsersHomePage>  usersHomePageList = userDao.getUserHomePage();
-
-
-
 
     @Override
     protected void onStop() {
