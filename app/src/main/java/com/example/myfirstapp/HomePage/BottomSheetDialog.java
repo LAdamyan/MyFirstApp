@@ -102,7 +102,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             String json = gson.toJson(commentArrayList);
             editor.putString("comments", json);
             editor.apply();
-            Toast.makeText(getContext(), "Saved Array List to Shared preferences. ", Toast.LENGTH_SHORT).show();
+
         }
     }
     private void loadComment() {

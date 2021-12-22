@@ -40,9 +40,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(airPlaneModeReceiver, intentFilter);
 
 
-        AppDatabase db = AppDatabase.getInstance(this);
-        UserDao userDao = db.getUsersDao();
-        List<UsersHomePage> usersHomePageList = userDao.getUserHomePage();
+
 
 
     }

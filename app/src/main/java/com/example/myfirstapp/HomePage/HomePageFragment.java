@@ -39,6 +39,9 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
     RecyclerView recyclerView;
 
 
+    boolean internetIsAvailable = true;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,47 +56,83 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
 
         Images images  = Images.create();
-        Call<SearchPhotos> nature = images.searchImage("santa");
+        Call<SearchPhotos> nature = images.searchImage("christmas");
 
-        nature.enqueue(new Callback<SearchPhotos>() {
-            @Override
-            public void onResponse(Call<SearchPhotos> call, Response<SearchPhotos> response) {
-                SearchPhotos body = response.body();
-                if (body != null) {
-                    List<Photo> photos = body.getPhotos();
+        if(!internetIsAvailable) {
 
-                    ArrayList<HomePageProfile> profilePhoto = new ArrayList<>();
+            nature.enqueue(new Callback<SearchPhotos>() {
+                @Override
+                public void onResponse(Call<SearchPhotos> call, Response<SearchPhotos> response) {
+                    SearchPhotos body = response.body();
+                    if (body != null) {
+                        List<Photo> photos = body.getPhotos();
 
-                    for (Photo photo : photos) {
+                        ArrayList<HomePageProfile> profilePhoto = new ArrayList<>();
 
-                        String[] s = photo.getPhotographer().split(" ");
-                        String s1 = "";
-                        String s2 = "";
+                        for (Photo photo : photos) {
 
-                        if (s.length - 1 > 0) {
-                            s1 = s[0];
+                            String[] s = photo.getPhotographer().split(" ");
+                            String s1 = "";
+                            String s2 = "";
+
+                            if (s.length - 1 > 0) {
+                                s1 = s[0];
+                            }
+                            if (s.length - 1 > 1) {
+                                s2 = s[1];
+                            }
+
+                            profilePhoto.add(new HomePageProfile(
+                                    R.drawable.world,
+                                    s1, s2,
+                                    photo.getSrc().getMediumUrl(), 0));
+
                         }
-                        if (s.length - 1 > 1) {
-                            s2 = s[1];
-                        }
-
-                        profilePhoto.add(new HomePageProfile(
-                                R.drawable.world,
-                                s1, s2,
-                                photo.getSrc().getMediumUrl(), 0));
-
+                        profilePageAdapter.setProfiles(profilePhoto);
+                        saveToDb(profilePhoto);
                     }
-                    profilePageAdapter.setProfiles(profilePhoto);
                 }
+
+                @Override
+                public void onFailure(Call<SearchPhotos> call, Throwable t) {
+                    System.out.println(t.getLocalizedMessage());
+                }
+            });
+
+        }else{
+            AppDatabase db = AppDatabase.getInstance(getContext());
+            UserDao userDao = db.getUsersDao();
+
+            List<UsersHomePage> usersHomePageList = userDao.getUserHomePage();
+            ArrayList<HomePageProfile>homePageProfiles = new ArrayList<>();
+
+            for (UsersHomePage usersHomePage : usersHomePageList ) {
+               homePageProfiles.add(new HomePageProfile(R.drawable.world,
+                       usersHomePage.getUserName(),
+                       usersHomePage.getUserSurName(),
+                       usersHomePage.getImageUrl(),0));
             }
-
-            @Override
-            public void onFailure(Call<SearchPhotos> call, Throwable t) {
-                System.out.println(t.getLocalizedMessage());
-            }
-        });
+            profilePageAdapter.setProfiles(homePageProfiles);
 
 
+        }
+
+    }
+
+    private void saveToDb(ArrayList<HomePageProfile> profilePhoto) {
+        AppDatabase db = AppDatabase.getInstance(getContext());
+        UserDao userDao = db.getUsersDao();
+
+        List<UsersHomePage> entity = new ArrayList<>();
+        for (HomePageProfile dto : profilePhoto) {
+            entity.add(new UsersHomePage(
+                    0,
+                    dto.getImageURL(),
+                    dto.getName(),
+                    dto.getSurName()
+            ));
+        }
+        userDao.insertAll(entity);
     }
 
     private void initRecycle(View view) {

@@ -12,19 +12,26 @@ import java.util.List;
 
 import javax.xml.transform.sax.SAXResult;
 
-@Entity (tableName = "usersHomePage")
+@Entity (tableName = "users_home_page")
 public class UsersHomePage {
 
-    @PrimaryKey(autoGenerate = true)
-    int id;
+    public UsersHomePage(int id, String imageUrl, String userName, String userSurName) {
+        this.id = id;
+        this.imageUrl = imageUrl;
+        this.userName = userName;
+        this.userSurName = userSurName;
+    }
 
-    @ColumnInfo(name = "imageUrl")
+    @PrimaryKey(autoGenerate = true)
+    int id ;
+
+    @ColumnInfo(name = "image_url")
     String imageUrl;
 
-    @ColumnInfo(name = "userName")
+    @ColumnInfo(name = "username")
     String userName;
 
-    @ColumnInfo(name = "userSurName")
+    @ColumnInfo(name = "user_surname")
     String userSurName;
 
     public String getImageUrl() {

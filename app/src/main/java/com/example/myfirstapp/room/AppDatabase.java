@@ -9,7 +9,7 @@ import androidx.room.TypeConverters;
 
 @Database(entities =
         {UsersHomePage.class},
-        version = 1
+        version = 2
 )
 
 
@@ -28,12 +28,11 @@ public abstract class AppDatabase extends RoomDatabase {
               context,
               AppDatabase.class, FDB_Name);
       INSTANCE = appDatabaseBuilder.
+              fallbackToDestructiveMigration().
               allowMainThreadQueries().build();
 
-      return INSTANCE;
-    } else {
-      return INSTANCE;
-    }
+
+    }return INSTANCE;
   }
 
 }

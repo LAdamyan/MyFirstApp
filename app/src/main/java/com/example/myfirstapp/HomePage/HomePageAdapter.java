@@ -107,14 +107,15 @@ class HomePageHolder extends RecyclerView.ViewHolder {
                 .error(R.drawable.error)
                 .centerCrop()
                 .into(imageview);
+        likeImage.setColorFilter(Color.parseColor("#C8CDF2"));
         likeImage.setOnClickListener(view -> {
             if( LIKE_STATUS== 0){ // like is off, turn it on
-                likeImage.setColorFilter(Color.parseColor("#C8CDF2"));
+                likeImage.setColorFilter(Color.parseColor("#1E33EC"));
                 LIKE_STATUS = 1;
             }
 
             else if(LIKE_STATUS == 1){ // like  is on, turn it off
-                likeImage.setColorFilter(Color.parseColor("#1E33EC"));
+                likeImage.setColorFilter(Color.parseColor("#C8CDF2"));
                 LIKE_STATUS = 0;
             }
         });
