@@ -78,6 +78,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
         } else {
             connected = false;
+            noDataFound();
 
 
             AppDatabase db = AppDatabase.getInstance(getContext());
@@ -101,7 +102,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
     private void getPhotos() {
         Images images = Images.create();
-        Call<SearchPhotos> nature = images.searchImage("ocean");
+        Call<SearchPhotos> nature = images.searchImage("family in new year");
         nature.enqueue(new Callback<SearchPhotos>() {
             @Override
             public void onResponse(Call<SearchPhotos> call, Response<SearchPhotos> response) {
