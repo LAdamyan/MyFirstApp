@@ -53,6 +53,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         return inflater.inflate(R.layout.home_page_recycle, container, false);
 
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -63,13 +64,11 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         initRecycle(view);
 
 
-
-
         boolean connected = true;
 
-        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().
                 getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState()
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState()
                 == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() ==
                         NetworkInfo.State.CONNECTED) {
@@ -77,8 +76,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
             getPhotos();
 
 
-        }
-        else {
+        } else {
             connected = false;
 
 
@@ -86,24 +84,23 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
             UserDao userDao = db.getUsersDao();
 
             List<UsersHomePage> usersHomePageList = userDao.getUserHomePage();
-            ArrayList<HomePageProfile>homePageProfiles = new ArrayList<>();
+            ArrayList<HomePageProfile> homePageProfiles = new ArrayList<>();
 
-            for (UsersHomePage usersHomePage : usersHomePageList ) {
-               homePageProfiles.add(new HomePageProfile(R.drawable.world,
-                       usersHomePage.getUserName(),
-                       usersHomePage.getUserSurName(),
-                       usersHomePage.getImageUrl(),0));
+            for (UsersHomePage usersHomePage : usersHomePageList) {
+                homePageProfiles.add(new HomePageProfile(R.drawable.world,
+                        usersHomePage.getUserName(),
+                        usersHomePage.getUserSurName(),
+                        usersHomePage.getImageUrl(), 0));
             }
             profilePageAdapter.setProfiles(homePageProfiles);
 
         }
 
 
-
     }
 
-    private  void getPhotos(){
-        Images images  = Images.create();
+    private void getPhotos() {
+        Images images = Images.create();
         Call<SearchPhotos> nature = images.searchImage("ocean");
         nature.enqueue(new Callback<SearchPhotos>() {
             @Override
@@ -149,15 +146,14 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
     }
 
-    private void noDataFound(){
+    private void noDataFound() {
         NoDataFragment noDataFragment = new NoDataFragment();
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity4_fragment_container,noDataFragment);
+        fragmentTransaction.replace(R.id.activity4_fragment_container, noDataFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
 
 
     private void saveToDb(ArrayList<HomePageProfile> profilePhoto) {
@@ -189,8 +185,8 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
     public void onClick(String name, String surname) {
         ProfileFragment profileFragment = new ProfileFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("name",name);
-        bundle.putString("surname",surname);
+        bundle.putString("name", name);
+        bundle.putString("surname", surname);
         profileFragment.setArguments(bundle);
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -215,10 +211,9 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
     @Override
     public void OpenBottomDialog(int imageIcon) {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
-        bottomSheetDialog.show(getParentFragmentManager(),null);
+        bottomSheetDialog.show(getParentFragmentManager(), null);
 
     }
-
 
 
     @Override
@@ -229,18 +224,5 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         startActivity(intent);
     }
 
-    @Override
-    public List<String> getData(String value) {
-            Type listType = new TypeToken<List<String>>() {}.getType();
-            return new Gson().fromJson(value, listType);
-        }
 
-    @Override
-    public String saveData(List<String> list) {
-            Gson gson = new Gson();
-            return gson.toJson(list);
-        }
-    }
-
-
-
+}

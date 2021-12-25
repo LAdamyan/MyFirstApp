@@ -137,9 +137,7 @@ interface ItemClickListener {
 
     void shareClick(String url);
 
-     List<String> getData(String value);
 
-     String saveData(List<String> list);
 
 
 
