@@ -24,4 +24,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="load">Load</string>
     <string name="save">Save</string>
+    <string name="oops__">Oops...</string>
+    <string name="there_is_no_posts">There is No Posts</string>
 </resources>

@@ -12,8 +12,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
+import com.example.myfirstapp.HomePage.NoDataFragment;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.dto.Images;
 import com.example.myfirstapp.dto.Photo;
@@ -30,7 +32,7 @@ import retrofit2.Response;
 public class ImageFragment extends Fragment implements ItemClickListener2 {
 
     ImageAdapter imageAdapter = new ImageAdapter();
-
+    SwipeRefreshLayout swipeRefresh;
 
 
     @Override
@@ -43,9 +45,15 @@ public class ImageFragment extends Fragment implements ItemClickListener2 {
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
+
+            swipeRefresh = view.findViewById(R.id.profile_swipe_refresh);
+
+            swipeRefresh.setOnRefreshListener(this::getImages);
             initRecycle(view);
 
+        }
 
+        private void getImages(){
             Images images = Images.create();
             Call<SearchPhotos> rose = images.searchImage("christmas tree");
             rose.enqueue(new Callback<SearchPhotos>() {
@@ -60,15 +68,15 @@ public class ImageFragment extends Fragment implements ItemClickListener2 {
 
                     }
                     imageAdapter.setMyUrls(imagePhoto);
+                    swipeRefresh.setRefreshing(false);
                 }
 
                 @Override
                 public void onFailure(Call<SearchPhotos> call, Throwable t) {
                     System.out.println(t.getLocalizedMessage());
+                    swipeRefresh.setRefreshing(false);
                 }
             });
-
-
         }
 
     private void initRecycle(View view){
@@ -79,7 +87,14 @@ public class ImageFragment extends Fragment implements ItemClickListener2 {
         imageAdapter.setItemClickListener2(this);
     }
 
-
+    private void noDataFound(){
+        NoDataFragment noDataFragment = new NoDataFragment();
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.activity4_fragment_container,noDataFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
     @Override
     public void onClick2(String imageUrl) {

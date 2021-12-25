@@ -13,7 +13,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.myfirstapp.HomePage.NoDataFragment;
 import com.example.myfirstapp.Image.Gallery;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.dto.Photo;
@@ -35,6 +37,7 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
 
     private RecyclerView recyclerView;
     VideoAdapter videoAdapter = new VideoAdapter();
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
 
@@ -49,11 +52,16 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        swipeRefreshLayout = view.findViewById(R.id.video_swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(this::getVideos);
+
         initRecycle(view);
 
+    }
+
+    private void getVideos(){
         Videos videos = Videos.create();
-
-
         videos.searchVideo("New Year Eve" ).enqueue(new Callback<SearchVideos>() {
             @Override
             public void onResponse(Call<SearchVideos> call, Response<SearchVideos> response) {
@@ -69,13 +77,15 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
 
                 }
                 videoAdapter.setMyVideoImages(videoImages);
+                swipeRefreshLayout.setRefreshing(false);
             }
             @Override
             public void onFailure(Call<SearchVideos> call, Throwable t) {
+                System.out.println(t.getLocalizedMessage());
+                swipeRefreshLayout.setRefreshing(false);
 
             }
         });
-
     }
 
 
@@ -87,6 +97,14 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
         videoAdapter.setVideoClickListener(this);
     }
 
+    private void noDataFound(){
+        NoDataFragment noDataFragment = new NoDataFragment();
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.activity4_fragment_container,noDataFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
 
     @Override

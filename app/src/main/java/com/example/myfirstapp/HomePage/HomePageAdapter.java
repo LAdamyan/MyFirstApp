@@ -32,6 +32,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
 
 
 
+
     public void setItemClickListener(ItemClickListener itemClickListener){
         this.itemClickListener = itemClickListener;
     }
@@ -58,7 +59,8 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageHolder> {
 
         holder.imageview.setOnClickListener(view -> itemClickListener.openFullImage(homePageProfile.getImageURL()));
 
-        holder.commentIcon.setOnClickListener(view -> itemClickListener.OpenBottomDialog(homePageProfile.getCommentIcon()));
+        holder.commentIcon.setOnClickListener(view ->
+                itemClickListener.OpenBottomDialog(homePageProfile.getCommentIcon()));
         holder.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,6 +133,7 @@ interface ItemClickListener {
     void openFullImage(String imageUrl);
 
     void OpenBottomDialog(int imageIcon);
+
 
     void shareClick(String url);
 

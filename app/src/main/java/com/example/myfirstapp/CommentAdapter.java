@@ -1,5 +1,6 @@
 package com.example.myfirstapp;
 
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.List;
 public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
     private final ArrayList<String>commentArrayList = new ArrayList<>();
+
 
     @NonNull
     @Override
@@ -36,11 +38,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         return commentArrayList.size();
     }
 
-    public void setComments(List<String> comments){
+    public void setComments(List<String> comments,int position){
         this.commentArrayList.clear();
         this.commentArrayList.addAll(comments);
+        notifyItemInserted(position);
         notifyDataSetChanged();
     }
+
+
+
+
 
 }
  class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -55,5 +62,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
          textView.setText(comment);
      }
 
+     }
 
- }
+

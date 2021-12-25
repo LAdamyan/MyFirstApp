@@ -34,9 +34,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     RecyclerView recycleView;
     AppCompatEditText editText;
     AppCompatButton submitButton;
-    AppCompatButton loadButton;
-    AppCompatButton saveButton;
-
     List<String> commentArrayList= new ArrayList<>();
 
 
@@ -44,6 +41,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottomsheetdialog, container, false);
+        loadComment();
         return view;
 
     }
@@ -54,30 +52,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         recycleView = view.findViewById(R.id.comments_recycle);
         editText = view.findViewById(R.id.dialog_edittext);
         submitButton = view.findViewById(R.id.comment_submit);
-        saveButton= view.findViewById(R.id.save_btn);
-        loadButton = view.findViewById(R.id.load);
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String comment = editText.getText().toString();
-                saveComment(comment);
-            }
-        });
-
-        loadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadComment();
-            }
-        });
-
-
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               dismiss();
+                String comment1 = editText.getText().toString();
+                saveComment(comment1);
+                dismiss();
             }
         });
 
@@ -113,7 +94,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             String jsonData = sh.getString("comments", null);
             Type type = new TypeToken<List<String>>() {}.getType();
             commentArrayList = gson.fromJson(jsonData, type);
-            commentAdapter.setComments(commentArrayList);
+            commentAdapter.setComments(commentArrayList,0);
 
         }
     }

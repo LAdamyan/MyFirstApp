@@ -1,5 +1,11 @@
 package com.example.myfirstapp.HomePage;
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Database;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myfirstapp.Image.FullImageFragment;
 import com.example.myfirstapp.Profile.ProfileFragment;
@@ -37,9 +44,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
     HomePageAdapter profilePageAdapter = new HomePageAdapter();
     RecyclerView recyclerView;
-
-
-    boolean internetIsAvailable = true;
+    SwipeRefreshLayout swipeRefresh;
 
 
     @Override
@@ -51,55 +56,32 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+
+        swipeRefresh.setOnRefreshListener(this::getPhotos);
+
         initRecycle(view);
 
 
 
-        Images images  = Images.create();
-        Call<SearchPhotos> nature = images.searchImage("christmas");
 
-        if(!internetIsAvailable) {
+        boolean connected = true;
 
-            nature.enqueue(new Callback<SearchPhotos>() {
-                @Override
-                public void onResponse(Call<SearchPhotos> call, Response<SearchPhotos> response) {
-                    SearchPhotos body = response.body();
-                    if (body != null) {
-                        List<Photo> photos = body.getPhotos();
+        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState()
+                == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() ==
+                        NetworkInfo.State.CONNECTED) {
+            connected = true;
+            getPhotos();
 
-                        ArrayList<HomePageProfile> profilePhoto = new ArrayList<>();
 
-                        for (Photo photo : photos) {
+        }
+        else {
+            connected = false;
 
-                            String[] s = photo.getPhotographer().split(" ");
-                            String s1 = "";
-                            String s2 = "";
 
-                            if (s.length - 1 > 0) {
-                                s1 = s[0];
-                            }
-                            if (s.length - 1 > 1) {
-                                s2 = s[1];
-                            }
-
-                            profilePhoto.add(new HomePageProfile(
-                                    R.drawable.world,
-                                    s1, s2,
-                                    photo.getSrc().getMediumUrl(), 0));
-
-                        }
-                        profilePageAdapter.setProfiles(profilePhoto);
-                        saveToDb(profilePhoto);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<SearchPhotos> call, Throwable t) {
-                    System.out.println(t.getLocalizedMessage());
-                }
-            });
-
-        }else{
             AppDatabase db = AppDatabase.getInstance(getContext());
             UserDao userDao = db.getUsersDao();
 
@@ -114,10 +96,69 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
             }
             profilePageAdapter.setProfiles(homePageProfiles);
 
-
         }
 
+
+
     }
+
+    private  void getPhotos(){
+        Images images  = Images.create();
+        Call<SearchPhotos> nature = images.searchImage("ocean");
+        nature.enqueue(new Callback<SearchPhotos>() {
+            @Override
+            public void onResponse(Call<SearchPhotos> call, Response<SearchPhotos> response) {
+                SearchPhotos body = response.body();
+                if (body != null) {
+                    List<Photo> photos = body.getPhotos();
+
+                    ArrayList<HomePageProfile> profilePhoto = new ArrayList<>();
+
+                    for (Photo photo : photos) {
+
+                        String[] s = photo.getPhotographer().split(" ");
+                        String s1 = "";
+                        String s2 = "";
+
+                        if (s.length - 1 > 0) {
+                            s1 = s[0];
+                        }
+                        if (s.length - 1 > 1) {
+                            s2 = s[1];
+                        }
+
+                        profilePhoto.add(new HomePageProfile(
+                                R.drawable.world,
+                                s1, s2,
+                                photo.getSrc().getMediumUrl(), 0));
+
+                    }
+                    profilePageAdapter.setProfiles(profilePhoto);
+                    saveToDb(profilePhoto);
+                    swipeRefresh.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchPhotos> call, Throwable t) {
+                System.out.println(t.getLocalizedMessage());
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+
+
+    }
+
+    private void noDataFound(){
+        NoDataFragment noDataFragment = new NoDataFragment();
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.activity4_fragment_container,noDataFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+
 
     private void saveToDb(ArrayList<HomePageProfile> profilePhoto) {
         AppDatabase db = AppDatabase.getInstance(getContext());
@@ -142,8 +183,6 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         recyclerView.setAdapter(profilePageAdapter);
         profilePageAdapter.setItemClickListener(this);
     }
-
-
 
 
     @Override
@@ -178,8 +217,9 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
         bottomSheetDialog.show(getParentFragmentManager(),null);
 
-
     }
+
+
 
     @Override
     public void shareClick(String url) {
