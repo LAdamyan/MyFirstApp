@@ -1,26 +1,23 @@
 package com.example.myfirstapp.HomePage;
-import static android.content.Context.MODE_PRIVATE;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Database;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myfirstapp.Image.FullImageFragment;
+import com.example.myfirstapp.InternetService;
 import com.example.myfirstapp.Profile.ProfileFragment;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.dto.Images;
@@ -29,12 +26,10 @@ import com.example.myfirstapp.dto.SearchPhotos;
 import com.example.myfirstapp.room.AppDatabase;
 import com.example.myfirstapp.room.UserDao;
 import com.example.myfirstapp.room.UsersHomePage;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +40,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
     HomePageAdapter profilePageAdapter = new HomePageAdapter();
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefresh;
+    Group noDataGroups;
 
 
     @Override
@@ -58,33 +54,25 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         swipeRefresh = view.findViewById(R.id.swipeRefresh);
+        noDataGroups = view.findViewById(R.id.noDataGroup);
 
         swipeRefresh.setOnRefreshListener(this::getPhotos);
 
         initRecycle(view);
 
 
-        boolean connected = true;
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState()
-                == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() ==
-                        NetworkInfo.State.CONNECTED) {
-            connected = true;
+        if (InternetService.isInternetConnected(getContext())) {
             getPhotos();
-
-
         } else {
-            connected = false;
-            noDataFound();
-
-
             AppDatabase db = AppDatabase.getInstance(getContext());
             UserDao userDao = db.getUsersDao();
 
             List<UsersHomePage> usersHomePageList = userDao.getUserHomePage();
+
+            if(usersHomePageList.isEmpty()){
+                showNoDataViews();
+            }else{
+               hideNoDataViews();
             ArrayList<HomePageProfile> homePageProfiles = new ArrayList<>();
 
             for (UsersHomePage usersHomePage : usersHomePageList) {
@@ -94,7 +82,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
                         usersHomePage.getImageUrl(), 0));
             }
             profilePageAdapter.setProfiles(homePageProfiles);
-
+        }
         }
 
 
@@ -134,6 +122,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
                     profilePageAdapter.setProfiles(profilePhoto);
                     saveToDb(profilePhoto);
                     swipeRefresh.setRefreshing(false);
+                    hideNoDataViews();
                 }
             }
 
@@ -147,13 +136,14 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
     }
 
-    private void noDataFound() {
-        NoDataFragment noDataFragment = new NoDataFragment();
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity4_fragment_container, noDataFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    private void showNoDataViews() {
+        recyclerView.setVisibility(View.GONE);
+        noDataGroups.setVisibility(View.VISIBLE);
+    }
+
+    private  void hideNoDataViews(){
+        recyclerView.setVisibility(View.VISIBLE);
+        noDataGroups.setVisibility(View.GONE);
     }
 
 
@@ -216,14 +206,16 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
     }
 
-
     @Override
     public void shareClick(String url) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, url);
-        startActivity(intent);
+        Intent modeIntent = Intent.createChooser(intent,"Share with ...");
+        startActivity(modeIntent);
     }
+
+
 
 
 }

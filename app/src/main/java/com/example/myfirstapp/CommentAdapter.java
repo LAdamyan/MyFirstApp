@@ -38,15 +38,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         return commentArrayList.size();
     }
 
-    public void setComments(List<String> comments,int position){
+    public void setComments(List<String> comments){
         this.commentArrayList.clear();
         this.commentArrayList.addAll(comments);
-        notifyItemInserted(position);
         notifyDataSetChanged();
     }
-
-
-
 
 
 }

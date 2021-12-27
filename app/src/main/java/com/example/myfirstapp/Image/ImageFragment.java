@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
-import com.example.myfirstapp.HomePage.NoDataFragment;
+import com.example.myfirstapp.InternetService;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.dto.Images;
 import com.example.myfirstapp.dto.Photo;
@@ -33,7 +34,8 @@ public class ImageFragment extends Fragment implements ItemClickListener2 {
 
     ImageAdapter imageAdapter = new ImageAdapter();
     SwipeRefreshLayout swipeRefresh;
-
+    Group noDataGroups;
+    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,9 +49,19 @@ public class ImageFragment extends Fragment implements ItemClickListener2 {
             super.onViewCreated(view, savedInstanceState);
 
             swipeRefresh = view.findViewById(R.id.profile_swipe_refresh);
+            noDataGroups = view.findViewById(R.id.noDataGroup);
+            recyclerView = view.findViewById(R.id.recycle_image_fragment);
+
 
             swipeRefresh.setOnRefreshListener(this::getImages);
             initRecycle(view);
+
+
+            if (InternetService.isInternetConnected(getContext())) {
+                getImages();
+            }else{
+                showNoDataViews();
+            }
 
         }
 
@@ -69,6 +81,7 @@ public class ImageFragment extends Fragment implements ItemClickListener2 {
                     }
                     imageAdapter.setMyUrls(imagePhoto);
                     swipeRefresh.setRefreshing(false);
+                    hideNoDataViews();
                 }
 
                 @Override
@@ -80,20 +93,21 @@ public class ImageFragment extends Fragment implements ItemClickListener2 {
         }
 
     private void initRecycle(View view){
-        RecyclerView recyclerView = view.findViewById(R.id.recycle_image_fragment);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(imageAdapter);
         imageAdapter.setItemClickListener2(this);
     }
 
-    private void noDataFound(){
-        NoDataFragment noDataFragment = new NoDataFragment();
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity4_fragment_container,noDataFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    private void showNoDataViews() {
+        recyclerView.setVisibility(View.GONE);
+        noDataGroups.setVisibility(View.VISIBLE);
+    }
+
+    private  void hideNoDataViews(){
+        recyclerView.setVisibility(View.VISIBLE);
+        noDataGroups.setVisibility(View.GONE);
     }
 
     @Override

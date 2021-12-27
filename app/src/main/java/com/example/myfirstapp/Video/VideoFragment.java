@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,14 +15,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.myfirstapp.HomePage.NoDataFragment;
-import com.example.myfirstapp.Image.Gallery;
+import com.example.myfirstapp.InternetService;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.dto.Photo;
-import com.example.myfirstapp.dto.SearchPhotos;
 import com.example.myfirstapp.dto.SearchVideos;
 import com.example.myfirstapp.dto.Video;
-import com.example.myfirstapp.dto.VideoFiles;
 import com.example.myfirstapp.dto.Videos;
 
 import java.util.ArrayList;
@@ -38,6 +34,7 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
     private RecyclerView recyclerView;
     VideoAdapter videoAdapter = new VideoAdapter();
     SwipeRefreshLayout swipeRefreshLayout;
+    Group noDataGroups;
 
 
 
@@ -54,9 +51,17 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
         super.onViewCreated(view, savedInstanceState);
 
         swipeRefreshLayout = view.findViewById(R.id.video_swipe_refresh);
+        noDataGroups = view.findViewById(R.id.noDataGroup);
         swipeRefreshLayout.setOnRefreshListener(this::getVideos);
 
         initRecycle(view);
+
+        if (InternetService.isInternetConnected(getContext())) {
+            getVideos();
+
+        }else {
+            showNoDataViews();
+        }
 
     }
 
@@ -78,6 +83,7 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
                 }
                 videoAdapter.setMyVideoImages(videoImages);
                 swipeRefreshLayout.setRefreshing(false);
+                hideNoDataViews();
             }
             @Override
             public void onFailure(Call<SearchVideos> call, Throwable t) {
@@ -96,15 +102,16 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
         recyclerView.setAdapter(videoAdapter);
         videoAdapter.setVideoClickListener(this);
     }
-
-    private void noDataFound(){
-        NoDataFragment noDataFragment = new NoDataFragment();
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity4_fragment_container,noDataFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    private void showNoDataViews() {
+        recyclerView.setVisibility(View.GONE);
+        noDataGroups.setVisibility(View.VISIBLE);
     }
+
+    private  void hideNoDataViews(){
+        recyclerView.setVisibility(View.VISIBLE);
+        noDataGroups.setVisibility(View.GONE);
+    }
+
 
 
     @Override

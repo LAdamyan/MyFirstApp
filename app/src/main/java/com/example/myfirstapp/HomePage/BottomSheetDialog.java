@@ -41,7 +41,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottomsheetdialog, container, false);
-        loadComment();
+
         return view;
 
     }
@@ -58,11 +58,12 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             public void onClick(View view) {
                 String comment1 = editText.getText().toString();
                 saveComment(comment1);
-                dismiss();
+
             }
         });
 
         initCommentRecycle();
+        loadComment();
 
     }
 
@@ -79,10 +80,21 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             commentArrayList.add(comment);
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MY_PREF, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
+
             Gson gson = new Gson();
+            String jsonData = sharedPreferences.getString("comments", null);
+            Type type = new TypeToken<List<String>>() {}.getType();
+
+            commentArrayList.clear();
+            List<String> comments = gson.fromJson(jsonData,type);
+            commentArrayList.addAll(comments);
+            commentArrayList.add(comment);
+
             String json = gson.toJson(commentArrayList);
             editor.putString("comments", json);
             editor.apply();
+            Toast.makeText(getContext(),"The comment has saved successfully!!",Toast.LENGTH_LONG).show();
+            dismiss();
 
         }
     }
@@ -93,10 +105,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             Gson gson = new Gson();
             String jsonData = sh.getString("comments", null);
             Type type = new TypeToken<List<String>>() {}.getType();
-            commentArrayList = gson.fromJson(jsonData, type);
-            commentAdapter.setComments(commentArrayList,0);
+            if(gson.fromJson(jsonData, type)!= null) {
+                commentArrayList.addAll(gson.fromJson(jsonData, type));
+                commentAdapter.setComments(commentArrayList);
 
         }
     }
-
+    }
 }

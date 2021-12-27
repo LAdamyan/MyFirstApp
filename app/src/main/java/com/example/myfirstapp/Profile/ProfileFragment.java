@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -24,6 +25,7 @@ public class ProfileFragment extends Fragment {
     AppCompatTextView name;
     AppCompatTextView surname;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         name = view.findViewById(R.id.user_name);
         surname = view.findViewById(R.id.user_surname);
+
 
 
         tabLayout = view.findViewById(R.id.profile_tabLayout);
