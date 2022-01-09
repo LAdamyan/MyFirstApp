@@ -8,8 +8,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 @Database(entities =
-        {UsersHomePage.class},
-        version = 2
+        {UsersHomePage.class,Comments.class},
+        version = 3
 )
 
 
@@ -19,6 +19,7 @@ public abstract class AppDatabase extends RoomDatabase {
   private static volatile AppDatabase INSTANCE;
 
   public abstract UserDao getUsersDao();
+  public abstract  CommentsDao getCommentsDao();
 
 
   public static synchronized AppDatabase getInstance(Context context) {

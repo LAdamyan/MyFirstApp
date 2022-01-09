@@ -12,6 +12,9 @@ import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -26,6 +29,7 @@ import com.example.myfirstapp.dto.SearchPhotos;
 import com.example.myfirstapp.room.AppDatabase;
 import com.example.myfirstapp.room.UserDao;
 import com.example.myfirstapp.room.UsersHomePage;
+import com.example.myfirstapp.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,12 +64,13 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
         initRecycle(view);
 
-
         if (InternetService.isInternetConnected(getContext())) {
             getPhotos();
+
         } else {
             AppDatabase db = AppDatabase.getInstance(getContext());
             UserDao userDao = db.getUsersDao();
+
 
             List<UsersHomePage> usersHomePageList = userDao.getUserHomePage();
 
@@ -84,57 +89,26 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
             profilePageAdapter.setProfiles(homePageProfiles);
         }
         }
-
-
     }
-
     private void getPhotos() {
-        Images images = Images.create();
-        Call<SearchPhotos> nature = images.searchImage("family in new year");
-        nature.enqueue(new Callback<SearchPhotos>() {
-            @Override
-            public void onResponse(Call<SearchPhotos> call, Response<SearchPhotos> response) {
-                SearchPhotos body = response.body();
-                if (body != null) {
-                    List<Photo> photos = body.getPhotos();
 
-                    ArrayList<HomePageProfile> profilePhoto = new ArrayList<>();
+        HomeViewModel homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel.getPhotos("santa");
 
-                    for (Photo photo : photos) {
+         homeViewModel.imagesLiveData.observe(getViewLifecycleOwner(), homePageProfiles -> {
+             if(homePageProfiles != null) {
 
-                        String[] s = photo.getPhotographer().split(" ");
-                        String s1 = "";
-                        String s2 = "";
-
-                        if (s.length - 1 > 0) {
-                            s1 = s[0];
-                        }
-                        if (s.length - 1 > 1) {
-                            s2 = s[1];
-                        }
-
-                        profilePhoto.add(new HomePageProfile(
-                                R.drawable.world,
-                                s1, s2,
-                                photo.getSrc().getMediumUrl(), 0));
-
-                    }
-                    profilePageAdapter.setProfiles(profilePhoto);
-                    saveToDb(profilePhoto);
-                    swipeRefresh.setRefreshing(false);
-                    hideNoDataViews();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SearchPhotos> call, Throwable t) {
-                System.out.println(t.getLocalizedMessage());
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+                 ArrayList<HomePageProfile> profilePhoto= new ArrayList<>();
+                 profilePhoto.addAll(homePageProfiles);
+                 profilePageAdapter.setProfiles(profilePhoto);
+                 saveToDb(profilePhoto);
+                 swipeRefresh.setRefreshing(false);
+                 hideNoDataViews();
+             }
+         });
 
 
-    }
+}
 
     private void showNoDataViews() {
         recyclerView.setVisibility(View.GONE);
@@ -214,7 +188,6 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
         Intent modeIntent = Intent.createChooser(intent,"Share with ...");
         startActivity(modeIntent);
     }
-
 
 
 

@@ -17,6 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.CommentAdapter;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.room.AppDatabase;
+import com.example.myfirstapp.room.Comments;
+import com.example.myfirstapp.room.CommentsDao;
+import com.example.myfirstapp.room.UserDao;
+import com.example.myfirstapp.room.UsersHomePage;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -74,6 +79,26 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         recycleView.setAdapter(commentAdapter);
 
     }
+
+    private void getComments(){
+        AppDatabase db = AppDatabase.getInstance(getContext());
+        CommentsDao commentsDao = db.getCommentsDao();
+
+        List<Comments> commentsList = commentsDao.getComments();
+        ArrayList<Comments> comments1 = new ArrayList<>();
+
+        for (Comments comments : commentsList) {
+            comments1.add(new Comments(comments.getId(),
+                    comments.getImageUrl(),
+                    comments.getComments()));
+
+        }
+
+    }
+
+
+
+
 
     private void saveComment(String comment) {
         if (getActivity() != null) {
