@@ -1,6 +1,7 @@
 package com.example.myfirstapp.repository;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.myfirstapp.HomePage.HomePageProfile;
@@ -18,7 +19,7 @@ import retrofit2.Response;
 
 public class ImageRepository {
 
-  public   MutableLiveData<List<HomePageProfile>> getPhotos(String param) {
+    public LiveData<List<HomePageProfile>> getPhotos(String param) {
 
         Images images = Images.create();
 

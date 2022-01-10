@@ -71,46 +71,44 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
             AppDatabase db = AppDatabase.getInstance(getContext());
             UserDao userDao = db.getUsersDao();
 
-
             List<UsersHomePage> usersHomePageList = userDao.getUserHomePage();
 
             if(usersHomePageList.isEmpty()){
                 showNoDataViews();
             }else{
-               hideNoDataViews();
-            ArrayList<HomePageProfile> homePageProfiles = new ArrayList<>();
+                hideNoDataViews();
+                ArrayList<HomePageProfile> homePageProfiles = new ArrayList<>();
 
-            for (UsersHomePage usersHomePage : usersHomePageList) {
-                homePageProfiles.add(new HomePageProfile(R.drawable.world,
-                        usersHomePage.getUserName(),
-                        usersHomePage.getUserSurName(),
-                        usersHomePage.getImageUrl(), 0));
+                for (UsersHomePage usersHomePage : usersHomePageList) {
+                    homePageProfiles.add(new HomePageProfile(R.drawable.world,
+                            usersHomePage.getUserName(),
+                            usersHomePage.getUserSurName(),
+                            usersHomePage.getImageUrl(), 0));
+                }
+                profilePageAdapter.setProfiles(homePageProfiles);
             }
-            profilePageAdapter.setProfiles(homePageProfiles);
-        }
         }
     }
     private void getPhotos() {
 
         HomeViewModel homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        homeViewModel.getPhotos("santa");
 
-         homeViewModel.imagesLiveData.observe(getViewLifecycleOwner(), homePageProfiles -> {
-             if(homePageProfiles != null) {
+        homeViewModel.getPhotos("ocean").observe(getViewLifecycleOwner(), homePageProfiles -> {
 
-                 ArrayList<HomePageProfile> profilePhoto= new ArrayList<>();
-                 profilePhoto.addAll(homePageProfiles);
-                 profilePageAdapter.setProfiles(profilePhoto);
-                 saveToDb(profilePhoto);
-                 swipeRefresh.setRefreshing(false);
-                 hideNoDataViews();
-             }
-         });
+            if (homePageProfiles != null) {
 
+                ArrayList<HomePageProfile> profilePhoto = new ArrayList<>();
+                profilePhoto.addAll(homePageProfiles);
+                profilePageAdapter.setProfiles(profilePhoto);
+                saveToDb(profilePhoto);
+                swipeRefresh.setRefreshing(false);
+                hideNoDataViews();
+            }
+        });
 
-}
+    }
 
-    private void showNoDataViews() {
+        private void showNoDataViews() {
         recyclerView.setVisibility(View.GONE);
         noDataGroups.setVisibility(View.VISIBLE);
     }

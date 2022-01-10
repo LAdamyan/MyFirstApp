@@ -80,11 +80,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     }
 
-    private void getComments(){
+    private void getCommentsById(int id){
         AppDatabase db = AppDatabase.getInstance(getContext());
         CommentsDao commentsDao = db.getCommentsDao();
 
-        List<Comments> commentsList = commentsDao.getComments();
+        List<Comments> commentsList = commentsDao.getComments(id);
         ArrayList<Comments> comments1 = new ArrayList<>();
 
         for (Comments comments : commentsList) {
@@ -94,10 +94,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
         }
 
+
     }
-
-
-
 
 
     private void saveComment(String comment) {

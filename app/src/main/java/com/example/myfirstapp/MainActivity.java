@@ -1,6 +1,7 @@
 package com.example.myfirstapp;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -38,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
         airPlaneModeReceiver = new AirPlaneModeReceiver();
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         registerReceiver(airPlaneModeReceiver, intentFilter);
-
-
-
 
 
     }

@@ -10,8 +10,8 @@ import java.util.List;
 @Dao
 public interface CommentsDao {
 
-    @Query("SELECT * FROM comments")
-    List<Comments> getComments();
+    @Query("SELECT * FROM comments ")
+    List<Comments> getComments(int id);
 
     @Insert
     void insert(Comments comments);
