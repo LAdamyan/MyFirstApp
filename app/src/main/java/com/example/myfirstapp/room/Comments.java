@@ -10,20 +10,14 @@ import java.util.List;
 @Entity (tableName = "comments")
 public class Comments {
 
-    public Comments(int id, String imageUrl, String comments) {
-        this.id = id;
-        this.imageUrl = imageUrl;
-        this.comments = comments;
-    }
-
     @PrimaryKey(autoGenerate = true)
     int id;
 
-    @ColumnInfo(name = "imageUrl")
-    String imageUrl;
+    @ColumnInfo(name = "post_id")
+    int postId;
 
-    @ColumnInfo(name = "comments")
-    String comments;
+    @ColumnInfo(name = "commentsText")
+    String commentsText;
 
     public int getId() {
         return id;
@@ -33,19 +27,19 @@ public class Comments {
         this.id = id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public int getPostId() {
+        return postId;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
-    public String getComments() {
-        return comments;
+    public String getCommentsText() {
+        return commentsText;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setCommentsText(String commentsText) {
+        this.commentsText = commentsText;
     }
 }

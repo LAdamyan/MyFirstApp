@@ -10,17 +10,15 @@ import java.util.List;
 @Dao
 public interface CommentsDao {
 
-    @Query("SELECT * FROM comments ")
-    List<Comments> getComments(int id);
+    @Query("SELECT * FROM comments WHERE post_id = :postId")
+
+            List<Comments> getComments(int postId);
 
     @Insert
     void insert(Comments comments);
 
-    @Insert
-    void insertAll(List<Comments> commentsList);
 
-    @Delete
-    void delete(Comments comments);
+
 
 
 }

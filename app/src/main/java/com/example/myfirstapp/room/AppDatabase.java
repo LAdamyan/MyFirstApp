@@ -9,7 +9,7 @@ import androidx.room.TypeConverters;
 
 @Database(entities =
         {UsersHomePage.class,Comments.class},
-        version = 3
+        version = 4
 )
 
 

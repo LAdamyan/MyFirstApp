@@ -49,6 +49,17 @@ public class ProfileFragment extends Fragment {
         viewPagerAdapter = new ViewPagerAdapter(getParentFragmentManager(), getLifecycle());
         viewPager2.setAdapter(viewPagerAdapter);
 
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HomePageFragment homePageFragment = new HomePageFragment();
+                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.activity4_fragment_container, homePageFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
