@@ -13,6 +13,7 @@ public class HomeViewModel extends ViewModel {
     private ImageRepository imageRepository= new ImageRepository();
 
     public LiveData<List<HomePageProfile>> getPhotos(String param){
+
         LiveData<List<HomePageProfile>> photos = imageRepository.getPhotos(param);
         return photos;
     }
