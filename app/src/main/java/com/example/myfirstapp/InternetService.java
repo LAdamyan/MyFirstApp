@@ -1,7 +1,4 @@
 package com.example.myfirstapp;
-
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;

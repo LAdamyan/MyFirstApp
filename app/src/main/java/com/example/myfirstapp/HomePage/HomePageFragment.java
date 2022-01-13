@@ -93,7 +93,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
         HomeViewModel homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
-        homeViewModel.getPhotos("ocean").observe(getViewLifecycleOwner(), homePageProfiles -> {
+        homeViewModel.getPhotos("snowman").observe(getViewLifecycleOwner(), homePageProfiles -> {
 
             if (homePageProfiles != null) {
 

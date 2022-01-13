@@ -1,32 +1,27 @@
 package com.example.myfirstapp.Video;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;;
 import com.example.myfirstapp.InternetService;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.dto.SearchVideos;
-import com.example.myfirstapp.dto.Video;
-import com.example.myfirstapp.dto.Videos;
-
+import com.example.myfirstapp.room.AppDatabase;
+import com.example.myfirstapp.room.ProfileVideo;
+import com.example.myfirstapp.room.ProfileVideoDao;
+import com.example.myfirstapp.viewmodel.VideoViewModel;
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class VideoFragment extends Fragment implements onVideoClickListener {
@@ -60,40 +55,45 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
             getVideos();
 
         }else {
-            showNoDataViews();
-        }
+            AppDatabase db = AppDatabase.getInstance(getContext());
+            ProfileVideoDao profileVideoDao = db.getVideoDao();
+            List<ProfileVideo> videoList = profileVideoDao.getVideos();
 
-    }
+            if (videoList.isEmpty()) {
+                showNoDataViews();}
+            else{
+                hideNoDataViews();
+                ArrayList<VideoImage> videoImages = new ArrayList<>();
 
-    private void getVideos(){
-        Videos videos = Videos.create();
-        videos.searchVideo("New Year Eve" ).enqueue(new Callback<SearchVideos>() {
-            @Override
-            public void onResponse(Call<SearchVideos> call, Response<SearchVideos> response) {
-
-                SearchVideos body = response.body();
-                List<Video> videoList = body.getVideos();
-
-                ArrayList<VideoImage>videoImages = new ArrayList<>();
-
-                for (Video video : videoList) {
-                    videoImages.add(new VideoImage(video.getImage(),
-                            R.drawable.video_outline,video.getVideoFiles().get(0).getLink()));
+                for (ProfileVideo video : videoList) {
+                    videoImages.add(new VideoImage(video.getVideoImage(),
+                            R.drawable.video_outline, video.getVideoUrl()));
 
                 }
                 videoAdapter.setMyVideoImages(videoImages);
+            }
+            showNoDataViews();
+
+        }
+    }
+
+    private void getVideos(){
+
+       VideoViewModel videoViewModel = ViewModelProviders.of(this).get(VideoViewModel.class);
+
+        videoViewModel.getVideos("mountains").observe(getViewLifecycleOwner(), new Observer<List<VideoImage>>() {
+            @Override
+            public void onChanged(List<VideoImage> videoImages) {
+                ArrayList<VideoImage> videoImage = new ArrayList<>();
+                videoImage.addAll(videoImages);
+                videoAdapter.setMyVideoImages(videoImage);
                 swipeRefreshLayout.setRefreshing(false);
                 hideNoDataViews();
             }
-            @Override
-            public void onFailure(Call<SearchVideos> call, Throwable t) {
-                System.out.println(t.getLocalizedMessage());
-                swipeRefreshLayout.setRefreshing(false);
+        });
+
 
             }
-        });
-    }
-
 
     private void initRecycle(View view) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3, GridLayoutManager.VERTICAL, false);

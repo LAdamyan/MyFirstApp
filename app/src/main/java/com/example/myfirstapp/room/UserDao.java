@@ -11,9 +11,12 @@ import java.util.List;
 @Dao
 public interface UserDao {
 
-@Transaction
+    @Transaction
     @Query("SELECT * FROM users_home_page")
-    List<UsersHomePage> getUserHomePage();
+    List<CommentsAndUsersHomePage> getPostsWithComments();
+
+    @Query("SELECT * FROM users_home_page")
+    List<UsersHomePage>getUserHomePage();
 
     @Insert
     void insert(UsersHomePage homePage);

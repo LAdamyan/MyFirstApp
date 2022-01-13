@@ -1,5 +1,5 @@
 package com.example.myfirstapp.HomePage;
-;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.CommentAdapter;
@@ -15,9 +16,12 @@ import com.example.myfirstapp.R;
 import com.example.myfirstapp.room.AppDatabase;
 import com.example.myfirstapp.room.Comments;
 import com.example.myfirstapp.room.CommentsDao;
+import com.example.myfirstapp.viewmodel.BottomSheetDialogViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.util.ArrayList;
 import java.util.List;
+
+;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
@@ -32,9 +36,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.bottomsheetdialog, container, false);
 
-        return view;
+        return inflater.inflate(R.layout.bottomsheetdialog, container, false);
     }
 
     @Override
@@ -50,13 +53,15 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         Bundle args = getArguments();
         if (args != null) {
             int postId = args.getInt(POST_ID, 0);
+
             loadComments(postId);
             submitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String comment = editText.getText().toString();
-                    saveComment(comment, postId);
-                    dismiss();
+                    if(editText!=null) {
+                        String comment = editText.getText().toString();
+                        saveComment(comment, postId);
+                    }
 
                 }
 
@@ -76,7 +81,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private void loadComments(int id){
         AppDatabase db = AppDatabase.getInstance(getContext());
         CommentsDao commentsDao = db.getCommentsDao();
-        List<Comments> commentsList = commentsDao.getComments(id);
+        List<Comments> commentsList = commentsDao.getComments();
         ArrayList<String> commentsArrayList = new ArrayList<>();
         for (Comments comment : commentsList) {
             commentsArrayList.add(comment.getCommentsText());
@@ -88,15 +93,20 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     private void saveComment(String commentText,int postId) {
 
-        AppDatabase db = AppDatabase.getInstance(getContext());
-        CommentsDao commentsDao = db.getCommentsDao();
-        Comments newComment = new Comments();
-        newComment.setPostId(postId);
-        newComment.setCommentsText(commentText);
-        commentsDao.insert(newComment);
+        BottomSheetDialogViewModel bottomSheetDialogViewModel = ViewModelProviders.of(this).
+                get(BottomSheetDialogViewModel.class);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Comments newComment = new Comments();
+                newComment.setPostId(postId);
+                newComment.setCommentsText(commentText);
+                bottomSheetDialogViewModel.insertComment(newComment);
+            }
+        }).start();
         dismiss();
 
-        }
+    }
 
 
 }

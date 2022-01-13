@@ -5,13 +5,15 @@ import androidx.room.Relation;
 
 import com.example.myfirstapp.HomePage.HomePageProfile;
 
+import java.util.List;
+
 public class CommentsAndUsersHomePage {
 
-    @Embedded Comments comments;
+    @Embedded UsersHomePage usersHomePage;
 
     @Relation(
-            parentColumn = "post_id",
-            entityColumn = "image_url")
+            parentColumn = "id",
+            entityColumn = "post_id")
 
-    public HomePageProfile homePageProfile;
+    public List<Comments> comments;
 }
