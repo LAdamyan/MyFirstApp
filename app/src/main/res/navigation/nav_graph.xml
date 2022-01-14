@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homePageFragment">
+
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.example.myfirstapp.HomePage.HomePageFragment"
+        android:label="HomePageFragment"
+        tools:layout="@layout/home_page_recycle">
+        <action
+            android:id="@+id/action_homePageFragment_to_fullImageFragment"
+            app:destination="@id/fullImageFragment"
+            />
+        <action
+            android:id="@+id/action_homePageFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/fullImageFragment"
+        android:name="com.example.myfirstapp.Image.FullImageFragment"
+        android:label="fragment_full_image"
+        tools:layout="@layout/fragment_full_image" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myfirstapp.Profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_profileFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageFragment"
+        android:name="com.example.myfirstapp.Image.ImageFragment"
+        android:label="fragment_image"
+        tools:layout="@layout/fragment_image" >
+        <action
+            android:id="@+id/action_imageFragment_to_fullImageFragment"
+            app:destination="@id/fullImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="com.example.myfirstapp.Video.VideoFragment"
+        android:label="fragment_video"
+        tools:layout="@layout/fragment_video" >
+        <action
+            android:id="@+id/action_videoFragment_to_fullVideoFragment"
+            app:destination="@id/fullVideoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullVideoFragment"
+        android:name="com.example.myfirstapp.Video.FullVideoFragment"
+        android:label="FullVideoFragment"
+        tools:layout="@layout/fragment_full_video"/>
+</navigation>

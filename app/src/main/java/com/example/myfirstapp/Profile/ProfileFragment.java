@@ -10,6 +10,8 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 
@@ -52,11 +54,8 @@ public class ProfileFragment extends Fragment {
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HomePageFragment homePageFragment = new HomePageFragment();
-                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.activity4_fragment_container, homePageFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                NavController navController = NavHostFragment.findNavController(ProfileFragment.this);
+                navController.navigate(R.id.action_profileFragment_to_homePageFragment);
             }
         });
 

@@ -11,9 +11,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.myfirstapp.HomePage.HomePageFragment;
 import com.example.myfirstapp.InternetService;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.room.AppDatabase;
@@ -114,13 +118,8 @@ public class ImageFragment extends Fragment implements ItemClickListener2 {
 
         Bundle bundle = new Bundle();
         bundle.putString("imageUrl", imageUrl);
-        FullImageFragment fullImageFragment = new FullImageFragment();
-        fullImageFragment.setArguments(bundle);
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.activity4_fragment_container, fullImageFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        NavController navController = NavHostFragment.findNavController(ImageFragment.this);
+        navController.navigate(R.id.action_imageFragment_to_fullImageFragment,bundle);
 
 
 
