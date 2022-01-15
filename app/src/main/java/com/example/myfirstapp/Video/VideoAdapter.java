@@ -1,10 +1,8 @@
 package com.example.myfirstapp.Video;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -18,7 +16,7 @@ import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
-    private ArrayList<VideoImage> videoImages = new ArrayList<>();
+    private ArrayList<VideoProfile> videoProfiles = new ArrayList<>();
     private onVideoClickListener onVideoClickListener;
 
 
@@ -36,12 +34,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        VideoImage videoImage = videoImages.get(position);
-        holder.initData(videoImage);
+        VideoProfile videoProfile = videoProfiles.get(position);
+        holder.initData(videoProfile);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onVideoClickListener.openFullVideo(videoImage.getVideoUrl());
+                onVideoClickListener.openFullVideo(videoProfile.getVideoUrl());
             }
         });
 
@@ -49,12 +47,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
     @Override
     public int getItemCount() {
-        return videoImages.size();
+        return videoProfiles.size();
     }
 
-    public void setMyVideoImages(List<VideoImage> videoImageList) {
-        this.videoImages.clear();
-        this.videoImages.addAll(videoImageList);
+    public void setMyVideoImages(List<VideoProfile> videoProfileList) {
+        this.videoProfiles.clear();
+        this.videoProfiles.addAll(videoProfileList);
         notifyDataSetChanged();
     }
 
@@ -73,15 +71,15 @@ class VideoViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void initData(VideoImage videoImage1) {
+    public void initData(VideoProfile videoProfile1) {
 
         Glide.with(itemView.getContext())
-                .load(videoImage1.getVideoImageUrl())
+                .load(videoProfile1.getVideoImageUrl())
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.error)
                 .centerCrop()
                 .into(videoImage);
-        videoIcon.setImageResource(videoImage1.getVideoIcon());
+        videoIcon.setImageResource(videoProfile1.getVideoIcon());
 
     }
 }

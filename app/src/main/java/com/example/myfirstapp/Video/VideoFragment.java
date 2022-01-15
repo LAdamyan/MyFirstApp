@@ -7,8 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
@@ -16,7 +14,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;;
-import com.example.myfirstapp.HomePage.HomePageFragment;
 import com.example.myfirstapp.InternetService;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.room.AppDatabase;
@@ -66,14 +63,14 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
                 showNoDataViews();}
             else{
                 hideNoDataViews();
-                ArrayList<VideoImage> videoImages = new ArrayList<>();
+                ArrayList<VideoProfile> videoProfiles = new ArrayList<>();
 
                 for (ProfileVideo video : videoList) {
-                    videoImages.add(new VideoImage(video.getVideoImage(),
+                    videoProfiles.add(new VideoProfile(video.getVideoImage(),
                             R.drawable.video_outline, video.getVideoUrl()));
 
                 }
-                videoAdapter.setMyVideoImages(videoImages);
+                videoAdapter.setMyVideoImages(videoProfiles);
             }
             showNoDataViews();
 
@@ -84,12 +81,12 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
 
        VideoViewModel videoViewModel = ViewModelProviders.of(this).get(VideoViewModel.class);
 
-        videoViewModel.getVideos("mountains").observe(getViewLifecycleOwner(), new Observer<List<VideoImage>>() {
+        videoViewModel.getVideos("mountains").observe(getViewLifecycleOwner(), new Observer<List<VideoProfile>>() {
             @Override
-            public void onChanged(List<VideoImage> videoImages) {
-                ArrayList<VideoImage> videoImage = new ArrayList<>();
-                videoImage.addAll(videoImages);
-                videoAdapter.setMyVideoImages(videoImage);
+            public void onChanged(List<VideoProfile> videoProfiles) {
+                ArrayList<VideoProfile> videoProfile = new ArrayList<>();
+                videoProfile.addAll(videoProfiles);
+                videoAdapter.setMyVideoImages(videoProfile);
                 swipeRefreshLayout.setRefreshing(false);
                 hideNoDataViews();
             }
