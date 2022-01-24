@@ -11,19 +11,20 @@ import android.widget.VideoView;
 import androidx.fragment.app.Fragment;
 
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.databinding.FragmentFullVideoBinding;
 
 public class FullVideoFragment extends Fragment {
 
-    VideoView videoView;
+    private FragmentFullVideoBinding fullVideoBinding = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_full_video, container, false);
-        videoView = view.findViewById(R.id.video_view);
+
+       fullVideoBinding = FragmentFullVideoBinding.inflate(inflater,container,false);
+
         loadVideo();
-        return view;
+        return fullVideoBinding.getRoot();
     }
 
     private void loadVideo() {
@@ -31,14 +32,14 @@ public class FullVideoFragment extends Fragment {
         if (bundle != null) {
             String videoUrl = bundle.getString("videoUrl");
             Uri uri = Uri.parse(videoUrl);
-            videoView.setVideoURI(uri);
-            videoView.setVideoPath(videoUrl);
-            MediaController mediaController = new MediaController(videoView.getContext());
-            mediaController.setAnchorView(videoView);
-            mediaController.setMediaPlayer(videoView);
-            videoView.setMediaController(mediaController);
-            videoView.requestFocus();
-            videoView.start();
+            fullVideoBinding.videoView.setVideoURI(uri);
+            fullVideoBinding.videoView.setVideoPath(videoUrl);
+            MediaController mediaController = new MediaController(fullVideoBinding.videoView.getContext());
+            mediaController.setAnchorView(fullVideoBinding.videoView);
+            mediaController.setMediaPlayer(fullVideoBinding.videoView);
+            fullVideoBinding.videoView.setMediaController(mediaController);
+            fullVideoBinding.videoView.requestFocus();
+            fullVideoBinding.videoView.start();
             mediaController.show();
 
 

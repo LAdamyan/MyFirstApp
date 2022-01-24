@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;;
 import com.example.myfirstapp.InternetService;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.databinding.FragmentVideoBinding;
 import com.example.myfirstapp.room.AppDatabase;
 import com.example.myfirstapp.room.ProfileVideo;
 import com.example.myfirstapp.room.ProfileVideoDao;
@@ -26,18 +27,17 @@ import java.util.List;
 
 public class VideoFragment extends Fragment implements onVideoClickListener {
 
-    private RecyclerView recyclerView;
-    VideoAdapter videoAdapter = new VideoAdapter();
-    SwipeRefreshLayout swipeRefreshLayout;
-    Group noDataGroups;
+    private FragmentVideoBinding videoBinding = null;
 
+    VideoAdapter videoAdapter = new VideoAdapter();
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_video, container, false);
+        videoBinding =FragmentVideoBinding.inflate(inflater,container,false);
+        return videoBinding.getRoot();
 
     }
 
@@ -45,9 +45,8 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        swipeRefreshLayout = view.findViewById(R.id.video_swipe_refresh);
-        noDataGroups = view.findViewById(R.id.noDataGroup);
-        swipeRefreshLayout.setOnRefreshListener(this::getVideos);
+
+        videoBinding.videoSwipeRefresh.setOnRefreshListener(this::getVideos);
 
         initRecycle(view);
 
@@ -87,7 +86,7 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
                 ArrayList<VideoProfile> videoProfile = new ArrayList<>();
                 videoProfile.addAll(videoProfiles);
                 videoAdapter.setMyVideoImages(videoProfile);
-                swipeRefreshLayout.setRefreshing(false);
+                videoBinding.videoSwipeRefresh.setRefreshing(false);
                 hideNoDataViews();
             }
         });
@@ -97,19 +96,18 @@ public class VideoFragment extends Fragment implements onVideoClickListener {
 
     private void initRecycle(View view) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3, GridLayoutManager.VERTICAL, false);
-        recyclerView = view.findViewById(R.id.video_recycle);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(videoAdapter);
+        videoBinding.videoRecycle .setLayoutManager(gridLayoutManager);
+        videoBinding.videoRecycle .setAdapter(videoAdapter);
         videoAdapter.setVideoClickListener(this);
     }
     private void showNoDataViews() {
-        recyclerView.setVisibility(View.GONE);
-        noDataGroups.setVisibility(View.VISIBLE);
+        videoBinding.videoRecycle .setVisibility(View.GONE);
+        videoBinding.noDataGroup.setVisibility(View.VISIBLE);
     }
 
     private  void hideNoDataViews(){
-        recyclerView.setVisibility(View.VISIBLE);
-        noDataGroups.setVisibility(View.GONE);
+        videoBinding.videoRecycle .setVisibility(View.VISIBLE);
+        videoBinding.noDataGroup.setVisibility(View.GONE);
     }
 
 

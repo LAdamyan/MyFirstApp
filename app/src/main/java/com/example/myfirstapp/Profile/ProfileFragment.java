@@ -18,40 +18,30 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.myfirstapp.HomePage.HomePageFragment;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.databinding.FragmentProfileBinding;
 import com.google.android.material.tabs.TabLayout;
 
 
 public class ProfileFragment extends Fragment {
 
+    private FragmentProfileBinding profileBinding = null;
     ViewPagerAdapter viewPagerAdapter;
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
-
-    AppCompatTextView name;
-    AppCompatTextView surname;
-    AppCompatImageView backIcon;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        name = view.findViewById(R.id.user_name);
-        surname = view.findViewById(R.id.user_surname);
-        backIcon = view.findViewById(R.id.back_icon);
+        profileBinding = FragmentProfileBinding.inflate(inflater,container,false);
 
 
+        profileBinding.profileTabLayout.addTab(profileBinding.profileTabLayout.newTab().setIcon(R.drawable.image_multiple_outline));
+        profileBinding.profileTabLayout.addTab(profileBinding.profileTabLayout.newTab().setIcon(R.drawable.message_video));
 
-        tabLayout = view.findViewById(R.id.profile_tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.image_multiple_outline));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.message_video));
-
-        viewPager2 = view.findViewById(R.id.profile_viewPager);
         viewPagerAdapter = new ViewPagerAdapter(getParentFragmentManager(), getLifecycle());
-        viewPager2.setAdapter(viewPagerAdapter);
+        profileBinding.profileViewPager.setAdapter(viewPagerAdapter);
 
-        backIcon.setOnClickListener(new View.OnClickListener() {
+        profileBinding.backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavController navController = NavHostFragment.findNavController(ProfileFragment.this);
@@ -61,10 +51,10 @@ public class ProfileFragment extends Fragment {
 
 
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        profileBinding.profileTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager2.setCurrentItem(tab.getPosition());
+                profileBinding.profileViewPager.setCurrentItem(tab.getPosition());
 
             }
             @Override
@@ -78,7 +68,7 @@ public class ProfileFragment extends Fragment {
             }
         });
         load();
-        return view;
+        return profileBinding.getRoot();
 
     }
 
@@ -86,8 +76,8 @@ public class ProfileFragment extends Fragment {
     private void load() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            name.setText(bundle.getString("name"));
-            surname.setText(bundle.getString("surname"));
+            profileBinding.userName.setText(bundle.getString("name"));
+            profileBinding.userSurname.setText(bundle.getString("surname"));
 
         }
     }

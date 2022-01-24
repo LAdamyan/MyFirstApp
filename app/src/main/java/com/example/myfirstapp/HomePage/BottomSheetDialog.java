@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.CommentAdapter;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.databinding.BottomsheetdialogBinding;
 import com.example.myfirstapp.room.AppDatabase;
 import com.example.myfirstapp.room.Comments;
 import com.example.myfirstapp.room.CommentsDao;
@@ -26,27 +27,23 @@ import java.util.List;
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
 
+    private  BottomsheetdialogBinding viewBinding = null;
+
     private static final String POST_ID = "post_id";
     CommentAdapter commentAdapter = new CommentAdapter();
-    RecyclerView recycleView;
-    AppCompatEditText editText;
-    AppCompatButton submitButton;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.bottomsheetdialog, container, false);
+        viewBinding= BottomsheetdialogBinding.inflate(inflater,container,false);
+        return viewBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        recycleView = view.findViewById(R.id.comments_recycle);
-        editText = view.findViewById(R.id.dialog_edittext);
-        submitButton = view.findViewById(R.id.comment_submit);
 
         initCommentRecycle();
 
@@ -55,13 +52,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             int postId = args.getInt(POST_ID, 0);
 
             loadComments(postId);
-            submitButton.setOnClickListener(new View.OnClickListener() {
+            viewBinding.commentSubmit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(editText!=null) {
-                        String comment = editText.getText().toString();
-                        saveComment(comment, postId);
-                    }
+                    String comment = viewBinding.dialogEdittext.getText().toString();
+                    saveComment(comment, postId);
 
                 }
 
@@ -73,8 +68,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     private void initCommentRecycle() {
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recycleView.setLayoutManager(linearLayoutManager2);
-        recycleView.setAdapter(commentAdapter);
+        viewBinding.commentsRecycle.setLayoutManager(linearLayoutManager2);
+        viewBinding.commentsRecycle.setAdapter(commentAdapter);
 
     }
 

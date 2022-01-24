@@ -25,6 +25,7 @@ import com.example.myfirstapp.Image.FullImageFragment;
 import com.example.myfirstapp.InternetService;
 import com.example.myfirstapp.Profile.ProfileFragment;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.databinding.HomePageRecycleBinding;
 import com.example.myfirstapp.dto.Images;
 import com.example.myfirstapp.dto.Photo;
 import com.example.myfirstapp.dto.SearchPhotos;
@@ -43,26 +44,24 @@ import retrofit2.Response;
 
 public class HomePageFragment extends Fragment implements ItemClickListener {
 
-    HomePageAdapter profilePageAdapter = new HomePageAdapter();
-    RecyclerView recyclerView;
-    SwipeRefreshLayout swipeRefresh;
-    Group noDataGroups;
+   private  HomePageRecycleBinding viewBinding = null;
 
+    HomePageAdapter profilePageAdapter = new HomePageAdapter();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_page_recycle, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        viewBinding = HomePageRecycleBinding.inflate(inflater,container,false);
+
+      return viewBinding.getRoot();
 
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        swipeRefresh = view.findViewById(R.id.swipeRefresh);
-        noDataGroups = view.findViewById(R.id.noDataGroup);
 
-        swipeRefresh.setOnRefreshListener(this::getPhotos);
+        viewBinding.swipeRefresh.setOnRefreshListener(this::getPhotos);
 
         initRecycle(view);
 
@@ -103,7 +102,7 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
                 profilePhoto.addAll(homePageProfiles);
                 profilePageAdapter.setProfiles(profilePhoto);
                 saveToDb(profilePhoto);
-                swipeRefresh.setRefreshing(false);
+                viewBinding.swipeRefresh.setRefreshing(false);
                 hideNoDataViews();
             }
         });
@@ -111,13 +110,13 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
     }
 
         private void showNoDataViews() {
-        recyclerView.setVisibility(View.GONE);
-        noDataGroups.setVisibility(View.VISIBLE);
+            viewBinding.homePageRecycleView.setVisibility(View.GONE);
+            viewBinding.noDataGroup.setVisibility(View.VISIBLE);
     }
 
     private  void hideNoDataViews(){
-        recyclerView.setVisibility(View.VISIBLE);
-        noDataGroups.setVisibility(View.GONE);
+        viewBinding.homePageRecycleView.setVisibility(View.VISIBLE);
+        viewBinding.noDataGroup.setVisibility(View.GONE);
     }
 
 
@@ -139,9 +138,8 @@ public class HomePageFragment extends Fragment implements ItemClickListener {
 
     private void initRecycle(View view) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView = view.findViewById(R.id.home_page_recycleView);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(profilePageAdapter);
+        viewBinding.homePageRecycleView.setLayoutManager(linearLayoutManager);
+        viewBinding.homePageRecycleView.setAdapter(profilePageAdapter);
         profilePageAdapter.setItemClickListener(this);
     }
 
