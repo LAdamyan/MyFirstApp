@@ -1,55 +1,38 @@
 package com.example.myfirstapp.repository;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.myfirstapp.Image.Gallery;
 import com.example.myfirstapp.dto.Images;
 import com.example.myfirstapp.dto.Photo;
-import com.example.myfirstapp.dto.SearchPhotos;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ProfileImageRepository {
 
-  public LiveData<List<Gallery>> getPhotos(String param) {
+  public Observable<List<Gallery>> getPhotos(String param) {
 
       Images images = Images.create();
 
-      MutableLiveData<List<Gallery>>mutableLiveData = new MutableLiveData<>();
 
-      images.searchImage(param).enqueue(new Callback<SearchPhotos>() {
-          @Override
-          public void onResponse(Call<SearchPhotos> call, Response<SearchPhotos> response) {
-              SearchPhotos body = response.body();
+      return images.searchImage(param)
+              .observeOn(Schedulers.newThread())
+              .map(searchPhotos -> {
+                  List<Photo> photos = searchPhotos.getPhotos();
 
-              if (body != null) {
-                  List<Photo> photoList = body.getPhotos();
+                  Stream<Gallery> profileStream = photos.stream().map(photo -> {
+                      return new Gallery(photo.getSrc().getLargeUrl());
 
-                  ArrayList<Gallery> imagePhoto = new ArrayList<>();
-                  for (Photo photo : photoList) {
-                      imagePhoto.add(new Gallery(photo.getSrc().getLargeUrl()));
+                  });
+                  return profileStream.collect(Collectors.toList());
 
-                  }
-                  mutableLiveData.setValue(imagePhoto);
-              }
-
-          }
-          @Override
-          public void onFailure(Call<SearchPhotos> call, Throwable t) {
-              mutableLiveData.setValue(null);
-          }
-      });
-
-      return mutableLiveData;
-  }
-
+              });
 
   }
+}
+
+
 
 

@@ -1,4 +1,6 @@
 package com.example.myfirstapp.repository;
+import android.media.Image;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,27 +11,31 @@ import com.example.myfirstapp.dto.Photo;
 import com.example.myfirstapp.dto.SearchPhotos;
 import java.util.ArrayList;
 import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 
 public class ImageRepository {
 
-    public LiveData<List<HomePageProfile>> getPhotos(String param) {
+    public Observable<List<HomePageProfile>> getPhotos(String param) {
 
         Images images = Images.create();
 
-        MutableLiveData<List<HomePageProfile>> mutableLiveData = new MutableLiveData<>();
+        return images.searchImage(param)
+                .observeOn(Schedulers.newThread())
+                .map(searchPhotos -> {
+                    List<Photo> photos = searchPhotos.getPhotos();
 
-        images.searchImage(param).enqueue(new Callback<SearchPhotos>() {
-            @Override
-            public void onResponse(@NonNull Call<SearchPhotos> call, @NonNull Response<SearchPhotos> response) {
-                SearchPhotos body = response.body();
-                if (body != null) {
-                    List<Photo> photos = body.getPhotos();
+                    Stream<HomePageProfile> homePageProfileStream = photos.stream().map(photo -> {
 
-                    ArrayList<HomePageProfile> profilePhoto = new ArrayList<>();
-                    for (Photo photo : photos) {
                         String[] s = photo.getPhotographer().split(" ");
                         String s1 = "";
                         String s2 = "";
@@ -38,22 +44,17 @@ public class ImageRepository {
                         }
                         if (s.length - 1 > 1) {
                             s2 = s[1];
-                        }
-                        profilePhoto.add(new HomePageProfile(
+                        };
+                        new HomePageProfile(
                                 R.drawable.world,
                                 s1, s2,
-                                photo.getSrc().getMediumUrl(), 0));
-                    }
-                    mutableLiveData.setValue(profilePhoto);
-                }
-            }
+                                photo.getSrc().getMediumUrl(),
+                                0);
 
-            @Override
-            public void onFailure(Call<SearchPhotos> call, Throwable t) {
-                mutableLiveData.setValue(null);
-            }
-        });
+                        return null;
+                    });
+                    return  homePageProfileStream.collect(Collectors.toList());
 
-        return mutableLiveData;
+                });
     }
 }
