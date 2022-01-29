@@ -8,27 +8,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.myfirstapp.Image.FullImageFragment;
 import com.example.myfirstapp.InternetService;
-import com.example.myfirstapp.Profile.ProfileFragment;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.databinding.HomePageRecycleBinding;
-import com.example.myfirstapp.dto.Images;
-import com.example.myfirstapp.dto.Photo;
-import com.example.myfirstapp.dto.SearchPhotos;
 import com.example.myfirstapp.room.AppDatabase;
 import com.example.myfirstapp.room.UserDao;
 import com.example.myfirstapp.room.UsersHomePage;
@@ -36,10 +24,6 @@ import com.example.myfirstapp.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class HomePageFragment extends Fragment implements ItemClickListener {

@@ -8,47 +8,38 @@ import com.example.myfirstapp.R;
 import com.example.myfirstapp.Video.VideoProfile;
 import com.example.myfirstapp.dto.SearchVideos;
 import com.example.myfirstapp.dto.Video;
-import com.example.myfirstapp.dto.Videos;
+import com.example.myfirstapp.dto.VideoService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class VideoRepository {
 
-    public LiveData<List<VideoProfile>> getVideos(String param) {
+    public Observable<List<VideoProfile>> getVideos(String param) {
 
-        Videos videos = Videos.create();
+        VideoService videoService = VideoService.create();
 
-        MutableLiveData<List<VideoProfile>> mutableLiveData = new MutableLiveData<>();
+        return videoService.searchVideo(param)
+                .observeOn(Schedulers.newThread())
+                .map(searchVideos -> {
+                    List<Video> videos = searchVideos.getVideos();
 
-        videos.searchVideo(param).enqueue(new Callback<SearchVideos>() {
-            @Override
-            public void onResponse(Call<SearchVideos> call, Response<SearchVideos> response) {
-                SearchVideos body = response.body();
+                    Stream<VideoProfile> videoProfileStream = videos.stream().map(video -> {
+                        return new VideoProfile(video.getImage(), R.drawable.video_outline,
+                                video.getVideoFiles().get(0).getLink());
 
-                if (body != null) {
-                    List<Video> videoList = body.getVideos();
-                    ArrayList<VideoProfile> imageVideo = new ArrayList<>();
+                    });
+                    return videoProfileStream.collect(Collectors.toList());
 
-                    for (Video video : videoList) {
-                        imageVideo.add(new VideoProfile(
-                                video.getImage(), R.drawable.video_outline,
-                                video.getVideoFiles().get(0).getLink()));
 
-                    }
-                    mutableLiveData.setValue(imageVideo);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<SearchVideos> call, @NonNull Throwable t) {
-                  mutableLiveData.setValue(null);
-            }
-        });
-        return mutableLiveData;
+                });
     }
 }

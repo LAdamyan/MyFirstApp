@@ -1,7 +1,7 @@
 package com.example.myfirstapp.repository;
 
 import com.example.myfirstapp.Image.Gallery;
-import com.example.myfirstapp.dto.Images;
+import com.example.myfirstapp.dto.ImageService;
 import com.example.myfirstapp.dto.Photo;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,16 +14,16 @@ public class ProfileImageRepository {
 
   public Observable<List<Gallery>> getPhotos(String param) {
 
-      Images images = Images.create();
+      ImageService imageService = ImageService.create();
 
 
-      return images.searchImage(param)
+      return imageService.searchImage(param)
               .observeOn(Schedulers.newThread())
               .map(searchPhotos -> {
                   List<Photo> photos = searchPhotos.getPhotos();
 
                   Stream<Gallery> profileStream = photos.stream().map(photo -> {
-                      return new Gallery(photo.getSrc().getLargeUrl());
+                      return  new Gallery(photo.getSrc().getLargeUrl());
 
                   });
                   return profileStream.collect(Collectors.toList());

@@ -1,5 +1,8 @@
-package com.example.myfirstapp.dto;
+package com.example.myfirstapp.retrofit;
 
+import com.example.myfirstapp.dto.TokenInterceptor;
+
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -15,7 +18,7 @@ public class RetrofitSetup {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(BASE_URL);
         builder.client(getOkHttpClient());
-        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        builder.addCallAdapterFactory(RxJava3CallAdapterFactory.create());
         builder.addConverterFactory(GsonConverterFactory.create());
 
         return builder.build();
